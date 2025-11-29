@@ -47,7 +47,7 @@ services:
       retries: 3
     command: redis-server --appendonly yes
 
-  # OCR 服务 - 本地构建
+  # OCR 服务 - 本地构建 (MinerU API)
   ocr-service:
     build:
       context: ../remote_app/ocr_service
@@ -69,8 +69,6 @@ services:
       TZ: Asia/Shanghai
       PYTHONUNBUFFERED: 1
     volumes:
-      - ../remote_app/ocr_service:/app:ro
-      - ../remote_app/shared:/app/shared:ro
       - ocr_results:/tmp/ocr_results
       - ocr_temp:/tmp/ocr_service
     networks:
