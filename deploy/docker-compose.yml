@@ -47,7 +47,7 @@ services:
       retries: 3
     command: redis-server --appendonly yes
 
-  # OCR 服务 - PaddleOCR文档识别
+  # OCR 服务 - MinerU API
   ocr-service:
     image: crpi-mjmyb1138k6on8mt.cn-shenzhen.personal.cr.aliyuncs.com/homesystem_1/remote_ocr:latest
     container_name: homesystem-ocr
@@ -61,17 +61,17 @@ services:
       DEBUG: false
       LOG_LEVEL: INFO
       
-      # PaddleOCR 设置
-      PADDLEOCR_USE_GPU: false  # 如有GPU设置为true，需要安装nvidia-docker
-      PADDLEOCR_USE_ANGLE_CLS: true
-      PADDLEOCR_LANG: ch
+      # MinerU API 配置
+      MINERU_API_KEY:           # ⚠️ 填写您的 MinerU API Key
+      MINERU_BASE_URL: https://mineru.net
+      MINERU_TIMEOUT: 600       # API 超时时间(秒)
+      MINERU_POLL_INTERVAL: 5   # 轮询间隔(秒)
+      OCR_MAX_PAGES: 50
       
       # 系统配置
       TZ: Asia/Shanghai
       PYTHONUNBUFFERED: 1
     volumes:
-      # PaddleOCR模型缓存，避免重复下载
-      - ocr_models:/app/.paddleocr
       - ocr_results:/tmp/ocr_results
       - ocr_temp:/tmp/ocr_service
     networks:
@@ -81,7 +81,7 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 60s
+      start_period: 30s
 
   # PaperAnalysis Web 应用
   paper-analysis:
@@ -120,31 +120,12 @@ services:
       REMOTE_OCR_ENDPOINT: http://ocr-service:5001
       REMOTE_OCR_TIMEOUT: 300
       
-      # ⚠️ LLM API 配置 - 请至少配置一个 API 密钥
-      # DeepSeek (推荐)
-      DEEPSEEK_API_KEY: sk-xxx  # ⚠️ 必填：请填写您的 DeepSeek API 密钥
-      DEEPSEEK_BASE_URL: https://api.deepseek.com
-      
-      # 可选 LLM 配置
-      SILICONFLOW_API_KEY:   # 硅基流动 API 密钥
+      # ⚠️ LLM API 配置 - 硅基流动 (SiliconFlow)
+      SILICONFLOW_API_KEY: sk-xxx  # ⚠️ 必填：请填写您的硅基流动 API 密钥
       SILICONFLOW_BASE_URL: https://api.siliconflow.cn/v1
       
-      VOLCANO_API_KEY:       # 火山引擎/豆包 API 密钥
-      VOLCANO_BASE_URL: https://ark.cn-beijing.volces.com/api/v3
-      
-      MOONSHOT_API_KEY:      # 月之暗面/Kimi API 密钥
-      MOONSHOT_BASE_URL: https://api.moonshot.cn/v1
-      
-      ZHIPUAI_API_KEY:       # 智谱AI API 密钥
-      
-      DASHSCOPE_API_KEY:     # 阿里云DashScope API 密钥
-      DASHSCOPE_BASE_URL: https://dashscope.aliyuncs.com/compatible-mode/v1
-      
-      # Ollama 本地模型配置 (可选，需要额外部署 Ollama)
-      OLLAMA_BASE_URL: http://host.docker.internal:11434
-      
       # LLM 默认配置
-      DEFAULT_LLM_MODEL: deepseek
+      DEFAULT_LLM_MODEL: siliconflow
       LLM_TEMPERATURE: 0.7
       LLM_MAX_TOKENS: 4000
       
@@ -227,8 +208,6 @@ volumes:
     name: homesystem-postgres-data
   redis_data:
     name: homesystem-redis-data
-  ocr_models:
-    name: homesystem-ocr-models
   ocr_results:
     name: homesystem-ocr-results
   ocr_temp:

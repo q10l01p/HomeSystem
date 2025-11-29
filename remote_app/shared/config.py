@@ -47,11 +47,12 @@ class OCRServiceConfig(Config):
     PORT = int(os.getenv('OCR_SERVICE_PORT', os.getenv('PORT', '5001')))
     
     # OCR specific settings
-    MAX_PAGES = int(os.getenv('OCR_MAX_PAGES', '25'))
+    MAX_PAGES = int(os.getenv('OCR_MAX_PAGES', '50'))
     TEMP_DIR = os.getenv('OCR_TEMP_DIR', '/tmp/ocr_service')
     RESULTS_DIR = os.getenv('OCR_RESULTS_DIR', '/tmp/ocr_results')
     
-    # PaddleOCR settings
-    USE_ANGLE_CLS = os.getenv('PADDLEOCR_USE_ANGLE_CLS', 'True').lower() in ('true', '1', 'yes', 'on')
-    USE_GPU = os.getenv('PADDLEOCR_USE_GPU', 'False').lower() in ('true', '1', 'yes', 'on')
-    LANG = os.getenv('PADDLEOCR_LANG', 'ch')
+    # MinerU API settings
+    MINERU_API_KEY = os.getenv('MINERU_API_KEY', '')
+    MINERU_BASE_URL = os.getenv('MINERU_BASE_URL', 'https://mineru.net')
+    MINERU_TIMEOUT = int(os.getenv('MINERU_TIMEOUT', '600'))  # 10 minutes
+    MINERU_POLL_INTERVAL = int(os.getenv('MINERU_POLL_INTERVAL', '5'))  # 5 seconds

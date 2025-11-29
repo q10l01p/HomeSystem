@@ -1,5 +1,5 @@
 """
-Remote OCR Service - Flask application for PaddleOCR processing.
+Remote OCR Service - Flask application for MinerU API processing.
 """
 import os
 import sys
@@ -13,7 +13,7 @@ from werkzeug.utils import secure_filename
 from shared.config import OCRServiceConfig
 from shared.logging import setup_logging
 from shared.auth import require_api_key, get_client_ip
-from processor import OCRProcessor
+from mineru_processor import MinerUProcessor
 from utils.file_handler import FileHandler
 
 
@@ -26,7 +26,10 @@ logger = setup_logging('ocr_service', OCRServiceConfig.LOG_LEVEL, OCRServiceConf
 
 # Initialize components
 file_handler = FileHandler(OCRServiceConfig.TEMP_DIR, OCRServiceConfig.RESULTS_DIR)
-ocr_processor = OCRProcessor()
+
+# Create MinerU OCR processor
+logger.info("Initializing MinerU OCR processor")
+ocr_processor = MinerUProcessor()
 
 
 @app.route('/api/health', methods=['GET'])
@@ -35,7 +38,8 @@ def health_check():
     return jsonify({
         'status': 'healthy',
         'service': 'ocr_service',
-        'version': '1.0.0'
+        'version': '2.0.0',
+        'ocr_backend': 'mineru'
     })
 
 
@@ -43,7 +47,7 @@ def health_check():
 @require_api_key
 def process_ocr():
     """
-    Process PDF file using PaddleOCR.
+    Process PDF file using MinerU API.
     
     Expected form data:
     - file: PDF file
@@ -174,8 +178,9 @@ def handle_exception(e):
 
 
 if __name__ == '__main__':
-    logger.info("Starting OCR Service...")
-    logger.info(f"Config: Max pages={OCRServiceConfig.MAX_PAGES}, GPU={OCRServiceConfig.USE_GPU}")
+    logger.info("Starting OCR Service (MinerU API)...")
+    logger.info(f"Config: Max pages={OCRServiceConfig.MAX_PAGES}")
+    logger.info(f"MinerU API: {OCRServiceConfig.MINERU_BASE_URL}")
     
     # Cleanup old files on startup
     file_handler.cleanup_old_files()

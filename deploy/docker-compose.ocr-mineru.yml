@@ -1,0 +1,108 @@
+# HomeSystem OCR 服务独立部署
+# 使用 MinerU 云端 API 进行 OCR，无需本地 GPU
+# 适合在华为云等云环境部署
+
+version: '3.8'
+
+services:
+  # OCR 服务 - MinerU API
+  ocr-service:
+    image: crpi-mjmyb1138k6on8mt.cn-shenzhen.personal.cr.aliyuncs.com/homesystem_1/remote_ocr:latest
+    container_name: homesystem-ocr
+    restart: unless-stopped
+    ports:
+      - "5001:5001"
+    environment:
+      # OCR 服务配置
+      HOST: 0.0.0.0
+      OCR_SERVICE_PORT: 5001
+      DEBUG: false
+      LOG_LEVEL: INFO
+      LOG_FILE: ocr_service.log
+      
+      # 请求限制配置
+      MAX_CONTENT_LENGTH: 100  # MB
+      REQUEST_TIMEOUT: 600     # 秒
+      
+      # OCR 处理设置
+      OCR_MAX_PAGES: 50
+      OCR_TEMP_DIR: /tmp/ocr_service
+      OCR_RESULTS_DIR: /tmp/ocr_results
+      
+      # ⚠️ MinerU API 配置 - 必须填写
+      MINERU_API_KEY: ${MINERU_API_KEY}  # 从 .env 文件读取
+      MINERU_BASE_URL: https://mineru.net
+      MINERU_TIMEOUT: 600       # API 超时时间(秒)
+      MINERU_POLL_INTERVAL: 5   # 轮询间隔(秒)
+      
+      # 可选：API Key 认证 (保护本服务)
+      API_KEY: ${OCR_API_KEY:-}
+      
+      # 系统配置
+      TZ: Asia/Shanghai
+      PYTHONUNBUFFERED: 1
+      PYTHONIOENCODING: utf-8
+    volumes:
+      - ocr_results:/tmp/ocr_results
+      - ocr_temp:/tmp/ocr_service
+      - ocr_logs:/app/logs
+    
+    # 资源限制 - MinerU API 模式资源需求较低
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1.0'
+        reservations:
+          memory: 256M
+          cpus: '0.25'
+    
+    # 健康检查
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    
+    networks:
+      - ocr-network
+
+# 数据卷定义
+volumes:
+  ocr_results:
+    name: homesystem-ocr-results
+  ocr_temp:
+    name: homesystem-ocr-temp
+  ocr_logs:
+    name: homesystem-ocr-logs
+
+# 网络定义
+networks:
+  ocr-network:
+    driver: bridge
+    name: homesystem-ocr-network
+
+# ============================================================
+# 部署说明
+# ============================================================
+#
+# 1. 创建 .env 文件:
+#    echo "MINERU_API_KEY=your_api_key_here" > .env
+#
+# 2. 启动服务:
+#    docker compose -f docker-compose.ocr-mineru.yml up -d
+#
+# 3. 检查服务状态:
+#    curl http://localhost:5001/api/health
+#
+# 4. 服务地址:
+#    - OCR API: http://服务器IP:5001
+#    - 健康检查: http://服务器IP:5001/api/health
+#
+# 优势:
+# - 无需 GPU，降低服务器成本
+# - MinerU 云端处理，识别质量高
+# - 支持公式、表格等复杂内容
+# - 资源占用低，适合轻量级部署
+# ============================================================
