@@ -1,0 +1,1637 @@
+{% extends "base.html" %}
+
+{% block title %}关于 - PaperAnalysis{% endblock %}
+
+{% block content %}
+<!-- 顶部渐变背景区域 -->
+<div class="hero-section">
+    <div class="container-fluid">
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="text-center hero-content">
+                    <h1 class="hero-title animated-title">
+                        <i class="bi bi-journal-text me-3 hero-icon"></i>
+                        <span class="title-gradient">PaperAnalysis</span>
+                        <span class="title-subtitle">关于系统</span>
+                    </h1>
+                    <p class="hero-subtitle animated-subtitle">📚 论文收集与分析系统 - 高效的学术研究助手 🚀</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid main-content">
+    <!-- 核心功能卡片 - 调整为更紧凑的布局 -->
+    <div class="row stats-section mb-5 justify-content-center">
+        <div class="col-lg-10">
+            <div class="row">
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="stats-card stats-card-primary" data-aos="fade-up" data-aos-delay="100">
+                        <div class="stats-card-inner feature-card-layout">
+                            <div class="stats-icon-wrapper">
+                                <div class="stats-icon-bg"></div>
+                                <i class="fas fa-download stats-icon"></i>
+                            </div>
+                            <div class="stats-content">
+                                <div class="stats-label">论文收集</div>
+                                <p class="feature-description">自动化的ArXiv论文收集，支持多种搜索模式和定时任务</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="stats-card stats-card-info" data-aos="fade-up" data-aos-delay="200">
+                        <div class="stats-card-inner feature-card-layout">
+                            <div class="stats-icon-wrapper">
+                                <div class="stats-icon-bg"></div>
+                                <i class="bi bi-search stats-icon"></i>
+                            </div>
+                            <div class="stats-content">
+                                <div class="stats-label">论文浏览</div>
+                                <p class="feature-description">强大的搜索和过滤功能，直观的论文数据可视化</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
+                    <div class="stats-card stats-card-warning" data-aos="fade-up" data-aos-delay="300">
+                        <div class="stats-card-inner feature-card-layout">
+                            <div class="stats-icon-wrapper">
+                                <div class="stats-icon-bg"></div>
+                                <i class="bi bi-cpu stats-icon"></i>
+                            </div>
+                            <div class="stats-content">
+                                <div class="stats-label">深度分析</div>
+                                <p class="feature-description">LLM驱动的论文深度分析，包括公式纠错和内容理解</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主要内容区域 -->
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <div class="modern-content-card" data-aos="fade-up" data-aos-delay="400">
+
+                <div class="content-section">
+                    <h3 class="section-title mb-5">
+                        <i class="bi bi-star me-2 section-icon"></i>系统特性
+                    </h3>
+                    <div class="features-grid mb-5">
+                        <div class="row g-4">
+                            <!-- 智能论文收集 -->
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="feature-card feature-card-gradient-1" data-aos="fade-up" data-aos-delay="100">
+                                    <div class="feature-card-icon">
+                                        <i class="bi bi-collection"></i>
+                                    </div>
+                                    <h5 class="feature-card-title">智能论文收集</h5>
+                                    <p class="feature-card-description">自动化的ArXiv论文收集与智能去重，支持多种搜索策略和定制化筛选条件</p>
+                                    <div class="feature-card-tags">
+                                        <span class="feature-tag">自动去重</span>
+                                        <span class="feature-tag">多源采集</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 多模式搜索 -->
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="feature-card feature-card-gradient-2" data-aos="fade-up" data-aos-delay="200">
+                                    <div class="feature-card-icon">
+                                        <i class="bi bi-search-heart"></i>
+                                    </div>
+                                    <h5 class="feature-card-title">多模式搜索</h5>
+                                    <p class="feature-card-description">支持关键词搜索、最新论文获取、相关性搜索等多种模式，满足不同研究需求</p>
+                                    <div class="feature-card-tags">
+                                        <span class="feature-tag">关键词</span>
+                                        <span class="feature-tag">相关性</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 任务自动化 -->
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="feature-card feature-card-gradient-3" data-aos="fade-up" data-aos-delay="300">
+                                    <div class="feature-card-icon">
+                                        <i class="bi bi-robot"></i>
+                                    </div>
+                                    <h5 class="feature-card-title">任务自动化</h5>
+                                    <p class="feature-card-description">定时任务自动化执行，实时状态监控，支持灵活的任务配置和调度管理</p>
+                                    <div class="feature-card-tags">
+                                        <span class="feature-tag">定时执行</span>
+                                        <span class="feature-tag">状态监控</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 高级检索 -->
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="feature-card feature-card-gradient-4" data-aos="fade-up" data-aos-delay="400">
+                                    <div class="feature-card-icon">
+                                        <i class="bi bi-funnel"></i>
+                                    </div>
+                                    <h5 class="feature-card-title">高级检索</h5>
+                                    <p class="feature-card-description">强大的搜索和过滤功能，支持多字段组合检索，快速定位目标论文</p>
+                                    <div class="feature-card-tags">
+                                        <span class="feature-tag">组合检索</span>
+                                        <span class="feature-tag">智能过滤</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 数据可视化 -->
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="feature-card feature-card-gradient-5" data-aos="fade-up" data-aos-delay="500">
+                                    <div class="feature-card-icon">
+                                        <i class="bi bi-bar-chart"></i>
+                                    </div>
+                                    <h5 class="feature-card-title">数据可视化</h5>
+                                    <p class="feature-card-description">直观的论文统计图表和数据分析，帮助理解研究趋势和领域分布</p>
+                                    <div class="feature-card-tags">
+                                        <span class="feature-tag">统计图表</span>
+                                        <span class="feature-tag">趋势分析</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- AI深度分析 -->
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="feature-card feature-card-gradient-6" data-aos="fade-up" data-aos-delay="600">
+                                    <div class="feature-card-icon">
+                                        <i class="bi bi-brain"></i>
+                                    </div>
+                                    <h5 class="feature-card-title">AI深度分析</h5>
+                                    <p class="feature-card-description">LLM驱动的论文深度分析，包括公式纠错、内容理解和知识抽取</p>
+                                    <div class="feature-card-tags">
+                                        <span class="feature-tag">LLM分析</span>
+                                        <span class="feature-tag">知识抽取</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 知识库集成 -->
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="feature-card feature-card-gradient-7" data-aos="fade-up" data-aos-delay="700">
+                                    <div class="feature-card-icon">
+                                        <i class="bi bi-database-gear"></i>
+                                    </div>
+                                    <h5 class="feature-card-title">知识库集成</h5>
+                                    <p class="feature-card-description">与Dify知识库无缝集成，支持论文批量上传和知识管理</p>
+                                    <div class="feature-card-tags">
+                                        <span class="feature-tag">Dify集成</span>
+                                        <span class="feature-tag">知识管理</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- 多平台支持 -->
+                            <div class="col-lg-4 col-md-6 col-sm-12">
+                                <div class="feature-card feature-card-gradient-8" data-aos="fade-up" data-aos-delay="800">
+                                    <div class="feature-card-icon">
+                                        <i class="bi bi-layers"></i>
+                                    </div>
+                                    <h5 class="feature-card-title">多平台集成</h5>
+                                    <p class="feature-card-description">支持SiYuan笔记、Paperless文档管理等多个平台的无缝集成</p>
+                                    <div class="feature-card-tags">
+                                        <span class="feature-tag">SiYuan</span>
+                                        <span class="feature-tag">Paperless</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h3 class="section-title mb-4">
+                        <i class="bi bi-diagram-3 me-2 section-icon"></i>技术架构
+                    </h3>
+                    <div class="modern-table-wrapper mb-5">
+                        <table class="modern-table">
+                            <tbody>
+                                <tr class="modern-table-row">
+                                    <td class="tech-label"><strong>后端框架</strong></td>
+                                    <td class="tech-value">Flask 3.0+</td>
+                                </tr>
+                                <tr class="modern-table-row">
+                                    <td class="tech-label"><strong>数据库</strong></td>
+                                    <td class="tech-value">PostgreSQL + Redis</td>
+                                </tr>
+                                <tr class="modern-table-row">
+                                    <td class="tech-label"><strong>前端</strong></td>
+                                    <td class="tech-value">Bootstrap 5.3 + Chart.js</td>
+                                </tr>
+                                <tr class="modern-table-row">
+                                    <td class="tech-label"><strong>AI引擎</strong></td>
+                                    <td class="tech-value">多种LLM模型支持</td>
+                                </tr>
+                                <tr class="modern-table-row">
+                                    <td class="tech-label"><strong>部署方式</strong></td>
+                                    <td class="tech-value">Docker Compose</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h3 class="section-title mb-4">
+                        <i class="bi bi-gear me-2 section-icon"></i>系统状态
+                    </h3>
+                    <div class="system-status-loading mb-5" id="systemStatusLoading">
+                        <div class="text-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">加载中...</span>
+                            </div>
+                            <p class="mt-2 text-muted">正在检测系统状态...</p>
+                        </div>
+                    </div>
+                    <div class="system-status-container mb-5" id="systemStatusContainer" style="display: none;">
+                        <div class="row">
+                            <!-- 数据库状态 -->
+                            <div class="col-md-6 mb-3">
+                                <h6 class="status-section-title">数据库服务</h6>
+                                <div class="status-item">
+                                    <span class="status-label">PostgreSQL:</span>
+                                    <span id="postgresqlStatus" class="status-badge status-unknown">检测中</span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-label">Redis:</span>
+                                    <span id="redisStatus" class="status-badge status-unknown">检测中</span>
+                                </div>
+                            </div>
+                            
+                            <!-- 外部服务状态 -->
+                            <div class="col-md-6 mb-3">
+                                <h6 class="status-section-title">外部服务</h6>
+                                <div class="status-item">
+                                    <span class="status-label">SiYuan笔记:</span>
+                                    <span id="siyuanStatus" class="status-badge status-unknown">检测中</span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-label">Dify知识库:</span>
+                                    <span id="difyStatus" class="status-badge status-unknown">检测中</span>
+                                </div>
+                                <div class="status-item">
+                                    <span class="status-label">Ollama本地:</span>
+                                    <span id="ollamaStatus" class="status-badge status-unknown">检测中</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- LLM服务状态 -->
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <h6 class="status-section-title">AI模型服务</h6>
+                                <div class="llm-status-summary">
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="llm-summary-info">
+                                            <span class="llm-count">可用模型: <strong id="availableLLMCount">-</strong> 个</span>
+                                            <span class="llm-providers ms-3">提供商: <strong id="totalProviders">-</strong> 个</span>
+                                        </div>
+                                        <button class="btn btn-outline-primary btn-sm" id="showLLMModelsBtn" onclick="showLLMModels()">
+                                            <i class="bi bi-list me-1"></i>查看详情
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 刷新按钮 -->
+                        <div class="text-center mt-4">
+                            <button class="btn btn-outline-secondary" id="refreshStatusBtn" onclick="refreshSystemStatus()">
+                                <i class="bi bi-arrow-clockwise me-1"></i>刷新状态
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="text-center system-info">
+                        <h4 class="system-title mb-3">
+                            <i class="bi bi-house-gear me-2"></i>HomeSystem 集成系统
+                        </h4>
+                        <p class="system-description">
+                            PaperAnalysis 是 HomeSystem 智能家庭自动化系统的一部分，<br>
+                            专注于提供高效的学术论文管理和分析服务。
+                        </p>
+                        <div class="action-buttons mt-4">
+                            <a href="{{ url_for('main.index') }}" class="btn btn-gradient-primary btn-lg me-3">
+                                <i class="bi bi-house me-2"></i>返回首页
+                            </a>
+                            <a href="{{ url_for('explore.papers') }}" class="btn btn-gradient-success btn-lg">
+                                <i class="bi bi-search me-2"></i>开始使用
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- LLM模型列表弹窗 -->
+<div class="modal fade" id="llmModelsModal" tabindex="-1" aria-labelledby="llmModelsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="llmModelsModalLabel">
+                    <i class="bi bi-cpu me-2"></i>支持的AI模型列表
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="llm-models-loading" id="llmModelsLoading">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">加载中...</span>
+                        </div>
+                        <p class="mt-2 text-muted">正在加载模型信息...</p>
+                    </div>
+                </div>
+                <div class="llm-models-content" id="llmModelsContent" style="display: none;">
+                    <div class="row mb-3">
+                        <div class="col-12">
+                            <div class="llm-summary-stats">
+                                <div class="row text-center">
+                                    <div class="col-md-4">
+                                        <div class="stat-item">
+                                            <div class="stat-number" id="totalChatModels">-</div>
+                                            <div class="stat-label">聊天模型</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="stat-item">
+                                            <div class="stat-number" id="totalEmbeddingModels">-</div>
+                                            <div class="stat-label">嵌入模型</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="stat-item">
+                                            <div class="stat-number" id="totalProvidersModal">-</div>
+                                            <div class="stat-label">服务提供商</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="providers-container" id="providersContainer">
+                        <!-- 动态加载的提供商和模型信息 -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" onclick="refreshLLMModels()">
+                    <i class="bi bi-arrow-clockwise me-1"></i>刷新
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- AOS Animation Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<style>
+/* ==============================================
+   关于页面现代化样式 - 与首页保持一致
+============================================== */
+
+/* 根变量定义 - 优化颜色搭配 */
+:root {
+    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+    --success-gradient: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    --warning-gradient: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    --info-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    --danger-gradient: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    --glass-bg: rgba(255, 255, 255, 0.15);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.12);
+    --shadow-strong: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* 页面整体背景 */
+body {
+    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    min-height: 100vh;
+}
+
+/* Hero Section - 顶部渐变区域 */
+.hero-section {
+    background: var(--primary-gradient);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    padding: 2rem 0 3rem;
+    margin: -1.5rem -15px 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 20%, transparent 70%);
+    animation: floatBubble 20s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes floatBubble {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-20px) rotate(2deg); }
+    66% { transform: translateY(10px) rotate(-1deg); }
+}
+
+/* Hero Title Styling */
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: white;
+    text-shadow: 2px 4px 20px rgba(0,0,0,0.3);
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-icon {
+    background: rgba(255,255,255,0.2);
+    padding: 0.5rem;
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    animation: iconPulse 3s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255,255,255,0.3); }
+    50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,255,255,0.5); }
+}
+
+.title-gradient {
+    background: linear-gradient(45deg, #fff, #e0e8ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.title-subtitle {
+    font-size: 0.7em;
+    opacity: 0.9;
+    margin-left: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 1px 2px 10px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 2;
+}
+
+/* Main Content */
+.main-content {
+    position: relative;
+    z-index: 1;
+}
+
+/* Stats Cards */
+.stats-section {
+    margin-top: -2rem;
+    position: relative;
+    z-index: 2;
+}
+
+.stats-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem 1.25rem;
+    box-shadow: var(--shadow-light);
+    border: 1px solid rgba(229, 231, 235, 0.8);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    height: 100%;
+    min-height: 140px;
+}
+
+/* 功能卡片特殊布局 */
+.feature-card-layout {
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    padding: 0.5rem 0;
+    gap: 1rem;
+}
+
+.feature-card-layout .stats-icon-wrapper {
+    margin-right: 0;
+    margin-bottom: 0;
+    align-self: center;
+}
+
+.feature-card-layout .stats-content {
+    text-align: center;
+}
+
+.stats-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    border-radius: 16px 16px 0 0;
+}
+
+.stats-card-primary::before {
+    background: var(--success-gradient);
+}
+
+.stats-card-warning::before {
+    background: var(--warning-gradient);
+}
+
+.stats-card-info::before {
+    background: var(--info-gradient);
+}
+
+.stats-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-medium);
+}
+
+.stats-card-inner {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.stats-icon-wrapper {
+    position: relative;
+    margin-right: 1.5rem;
+    flex-shrink: 0;
+}
+
+.stats-icon-bg {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    opacity: 0.1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.stats-card-primary .stats-icon-bg {
+    background: var(--success-gradient);
+}
+
+.stats-card-warning .stats-icon-bg {
+    background: var(--warning-gradient);
+}
+
+.stats-card-info .stats-icon-bg {
+    background: var(--info-gradient);
+}
+
+.stats-icon {
+    font-size: 1.8rem;
+    position: relative;
+    z-index: 1;
+    color: #059669;
+    transition: all 0.3s ease;
+}
+
+.stats-card-warning .stats-icon {
+    color: #d97706;
+}
+
+.stats-card-info .stats-icon {
+    color: #1d4ed8;
+}
+
+.stats-content {
+    flex: 1;
+}
+
+.stats-label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.5rem;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+.stats-card-primary .stats-label {
+    color: #059669;
+}
+
+.stats-card-warning .stats-label {
+    color: #d97706;
+}
+
+.stats-card-info .stats-label {
+    color: #1d4ed8;
+}
+
+.feature-description {
+    color: #6b7280;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    margin: 0;
+}
+
+/* Modern Content Card */
+.modern-content-card {
+    background: white;
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: var(--shadow-light);
+    border: 1px solid rgba(255,255,255,0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.modern-content-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient);
+    border-radius: 20px 20px 0 0;
+}
+
+/* Section Titles */
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.section-icon {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 1.5rem;
+}
+
+/* Features Grid */
+.features-grid {
+    position: relative;
+}
+
+/* Feature Cards */
+.feature-card {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    height: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.feature-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    border-radius: 20px 20px 0 0;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.feature-card:hover::before {
+    height: 6px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Feature Card Gradients */
+.feature-card-gradient-1::before {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+.feature-card-gradient-2::before {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+}
+.feature-card-gradient-3::before {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+}
+.feature-card-gradient-4::before {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+.feature-card-gradient-5::before {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+}
+.feature-card-gradient-6::before {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+}
+.feature-card-gradient-7::before {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+}
+.feature-card-gradient-8::before {
+    background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+}
+
+/* Feature Card Icon */
+.feature-card-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 1.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover .feature-card-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.feature-card-icon i {
+    font-size: 1.8rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    transition: all 0.3s ease;
+}
+
+.feature-card-gradient-1 .feature-card-icon i {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.feature-card-gradient-2 .feature-card-icon i {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.feature-card-gradient-3 .feature-card-icon i {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.feature-card-gradient-4 .feature-card-icon i {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.feature-card-gradient-5 .feature-card-icon i {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.feature-card-gradient-6 .feature-card-icon i {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.feature-card-gradient-7 .feature-card-icon i {
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.feature-card-gradient-8 .feature-card-icon i {
+    background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Feature Card Content */
+.feature-card-title {
+    color: #1e293b;
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+.feature-card-description {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+    flex-grow: 1;
+}
+
+/* Feature Card Tags */
+.feature-card-tags {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: auto;
+}
+
+.feature-card-tags .feature-tag {
+    background: rgba(102, 126, 234, 0.1);
+    color: #6366f1;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(102, 126, 234, 0.2);
+}
+
+.feature-card:hover .feature-tag {
+    background: rgba(102, 126, 234, 0.15);
+    transform: scale(1.05);
+}
+
+/* Modern Table */
+.modern-table-wrapper {
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--shadow-light);
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.modern-table {
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+}
+
+.modern-table-row {
+    transition: all 0.3s ease;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.modern-table-row:hover {
+    background: linear-gradient(90deg, rgba(102, 126, 234, 0.05) 0%, transparent 100%);
+}
+
+.modern-table-row:last-child {
+    border-bottom: none;
+}
+
+.modern-table-row td {
+    padding: 1.25rem 1.5rem;
+    border: none;
+    vertical-align: middle;
+}
+
+.tech-label {
+    font-weight: 600;
+    color: #1e293b;
+    width: 30%;
+}
+
+.tech-value {
+    color: #64748b;
+}
+
+/* Version Info Card */
+.version-info-card {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(79, 172, 254, 0.05) 100%);
+    border-radius: 15px;
+    padding: 2rem;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.version-item {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.version-tag {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.status-badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-running {
+    background: linear-gradient(135deg, #10b981, #34d399);
+    color: white;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.status-info {
+    background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    color: white;
+    box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+/* System Status Styles */
+.system-status-container {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, rgba(139, 92, 246, 0.03) 100%);
+    border-radius: 15px;
+    padding: 2rem;
+    border: 1px solid rgba(99, 102, 241, 0.1);
+}
+
+.status-section-title {
+    color: #374151;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.status-item:last-child {
+    border-bottom: none;
+}
+
+.status-label {
+    color: #4b5563;
+    font-weight: 500;
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.status-online {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.status-offline {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+}
+
+.status-unknown {
+    background: linear-gradient(135deg, #6b7280, #4b5563);
+    color: white;
+    box-shadow: 0 2px 8px rgba(107, 114, 128, 0.3);
+}
+
+.llm-status-summary {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(0,0,0,0.05);
+    box-shadow: var(--shadow-light);
+}
+
+.llm-summary-info {
+    color: #4b5563;
+}
+
+.llm-count, .llm-providers {
+    font-size: 0.95rem;
+}
+
+/* LLM Modal Styles */
+.llm-summary-stats {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(139, 92, 246, 0.05) 100%);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-item {
+    padding: 0.5rem;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #6366f1;
+    line-height: 1;
+}
+
+.stat-label {
+    color: #6b7280;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-top: 0.25rem;
+}
+
+.provider-section {
+    margin-bottom: 2rem;
+}
+
+.provider-header {
+    background: var(--primary-gradient);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px 12px 0 0;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.provider-content {
+    background: white;
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    padding: 1.5rem;
+}
+
+.model-card {
+    background: rgba(249, 250, 251, 0.8);
+    border: 1px solid rgba(0,0,0,0.05);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.model-card:hover {
+    background: rgba(99, 102, 241, 0.05);
+    border-color: rgba(99, 102, 241, 0.2);
+}
+
+.model-name {
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 0.25rem;
+}
+
+.model-description {
+    color: #6b7280;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.model-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+}
+
+.feature-tag {
+    background: rgba(99, 102, 241, 0.1);
+    color: #6366f1;
+    padding: 0.2rem 0.5rem;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.model-type-chat {
+    border-left: 4px solid #10b981;
+}
+
+.model-type-embedding {
+    border-left: 4px solid #3b82f6;
+}
+
+/* System Info */
+.system-info {
+    padding: 2rem 0;
+}
+
+.system-title {
+    color: #1e293b;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.system-title i {
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.system-description {
+    color: #64748b;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* Action Buttons */
+.btn-gradient-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-gradient-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+    color: white;
+}
+
+.btn-gradient-success {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    border: none;
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+}
+
+.btn-gradient-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(79, 172, 254, 0.6);
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    /* 在较小的桌面屏幕上优化特性卡片 */
+    .feature-card {
+        padding: 1.8rem 1.25rem;
+    }
+    
+    .feature-card-icon {
+        width: 65px;
+        height: 65px;
+        margin-bottom: 1.25rem;
+    }
+    
+    .feature-card-icon i {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 992px) {
+    /* 平板屏幕优化 */
+    .features-grid .row {
+        row-gap: 2rem;
+    }
+    
+    .feature-card {
+        padding: 1.75rem 1.25rem;
+        min-height: 280px;
+    }
+    
+    .feature-card-title {
+        font-size: 1.15rem;
+    }
+    
+    .feature-card-description {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .stats-card-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .stats-icon-wrapper {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+    
+    .modern-content-card {
+        padding: 2rem;
+    }
+    
+    /* 特性卡片移动端优化 */
+    .features-grid .row {
+        row-gap: 1.5rem;
+    }
+    
+    .feature-card {
+        padding: 1.5rem 1rem;
+        min-height: 260px;
+        margin-bottom: 0;
+    }
+    
+    .feature-card-icon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 1rem;
+    }
+    
+    .feature-card-icon i {
+        font-size: 1.5rem;
+    }
+    
+    .feature-card-title {
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .feature-card-description {
+        font-size: 0.85rem;
+        margin-bottom: 1rem;
+    }
+    
+    .feature-card-tags {
+        gap: 0.25rem;
+    }
+    
+    .feature-card-tags .feature-tag {
+        padding: 0.2rem 0.6rem;
+        font-size: 0.7rem;
+    }
+    
+    /* 在中等屏幕上调整功能卡片为2列布局 */
+    .stats-section .col-lg-4.col-md-6:nth-child(3) {
+        margin: 0 auto;
+    }
+}
+
+@media (max-width: 991px) {
+    /* 在大平板上调整功能卡片间距 */
+    .stats-section .col-lg-10 {
+        padding: 0 2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .title-subtitle {
+        display: block;
+        margin-left: 0;
+        margin-top: 0.5rem;
+        font-size: 1rem;
+    }
+    
+    .modern-content-card {
+        padding: 1.5rem;
+    }
+    
+    /* 小屏幕特性卡片优化 */
+    .section-title {
+        font-size: 1.5rem;
+        margin-bottom: 2rem !important;
+    }
+    
+    .features-grid {
+        margin-bottom: 2rem !important;
+    }
+    
+    .feature-card {
+        padding: 1.25rem 0.75rem;
+        min-height: 240px;
+        border-radius: 15px;
+    }
+    
+    .feature-card-icon {
+        width: 55px;
+        height: 55px;
+        margin-bottom: 0.75rem;
+    }
+    
+    .feature-card-icon i {
+        font-size: 1.3rem;
+    }
+    
+    .feature-card-title {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .feature-card-description {
+        font-size: 0.8rem;
+        line-height: 1.4;
+        margin-bottom: 0.75rem;
+    }
+    
+    .feature-card-tags .feature-tag {
+        padding: 0.15rem 0.5rem;
+        font-size: 0.65rem;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-4px);
+    }
+}
+</style>
+
+<script>
+// 页面加载时初始化
+document.addEventListener('DOMContentLoaded', function() {
+    // 初始化AOS动画
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out-cubic',
+        once: true,
+        offset: 100,
+        delay: 100
+    });
+    
+    // 加载系统状态
+    loadSystemStatus();
+});
+
+// 加载系统状态
+async function loadSystemStatus() {
+    try {
+        const response = await fetch('/api/about/system_status');
+        const data = await response.json();
+        
+        if (data.success) {
+            updateSystemStatus(data.data);
+            showSystemStatus();
+        } else {
+            showSystemStatusError(data.error || '获取系统状态失败');
+        }
+    } catch (error) {
+        console.error('加载系统状态失败:', error);
+        showSystemStatusError('网络连接失败');
+    }
+}
+
+// 更新系统状态显示
+function updateSystemStatus(statusData) {
+    // 更新数据库状态
+    updateStatusBadge('postgresqlStatus', statusData.database.postgresql);
+    updateStatusBadge('redisStatus', statusData.database.redis);
+    
+    // 更新外部服务状态
+    updateStatusBadge('siyuanStatus', statusData.external_services.siyuan);
+    updateStatusBadge('difyStatus', statusData.external_services.dify);
+    updateStatusBadge('ollamaStatus', statusData.external_services.ollama);
+    
+    // 更新LLM服务信息
+    document.getElementById('availableLLMCount').textContent = statusData.llm_services.available_count || 0;
+    document.getElementById('totalProviders').textContent = statusData.llm_services.total_providers || 0;
+}
+
+// 更新状态徽章
+function updateStatusBadge(elementId, isOnline) {
+    const element = document.getElementById(elementId);
+    if (!element) return;
+    
+    element.className = 'status-badge';
+    if (isOnline) {
+        element.classList.add('status-online');
+        element.textContent = '在线';
+    } else {
+        element.classList.add('status-offline');
+        element.textContent = '离线';
+    }
+}
+
+// 显示系统状态
+function showSystemStatus() {
+    document.getElementById('systemStatusLoading').style.display = 'none';
+    document.getElementById('systemStatusContainer').style.display = 'block';
+}
+
+// 显示系统状态错误
+function showSystemStatusError(errorMessage) {
+    const loadingDiv = document.getElementById('systemStatusLoading');
+    loadingDiv.innerHTML = `
+        <div class="text-center">
+            <i class="bi bi-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
+            <p class="mt-2 text-muted">系统状态获取失败</p>
+            <p class="text-danger small">${errorMessage}</p>
+            <button class="btn btn-outline-primary btn-sm mt-2" onclick="loadSystemStatus()">
+                <i class="bi bi-arrow-clockwise me-1"></i>重试
+            </button>
+        </div>
+    `;
+}
+
+// 刷新系统状态
+async function refreshSystemStatus() {
+    const refreshBtn = document.getElementById('refreshStatusBtn');
+    const originalText = refreshBtn.innerHTML;
+    
+    // 显示加载状态
+    refreshBtn.innerHTML = '<i class="bi bi-arrow-clockwise rotating me-1"></i>刷新中...';
+    refreshBtn.disabled = true;
+    
+    try {
+        await loadSystemStatus();
+    } finally {
+        // 恢复按钮状态
+        setTimeout(() => {
+            refreshBtn.innerHTML = originalText;
+            refreshBtn.disabled = false;
+        }, 1000);
+    }
+}
+
+// 显示LLM模型列表弹窗
+async function showLLMModels() {
+    const modal = new bootstrap.Modal(document.getElementById('llmModelsModal'));
+    modal.show();
+    
+    // 重置内容
+    document.getElementById('llmModelsLoading').style.display = 'block';
+    document.getElementById('llmModelsContent').style.display = 'none';
+    
+    await loadLLMModels();
+}
+
+// 加载LLM模型列表
+async function loadLLMModels() {
+    try {
+        const response = await fetch('/api/about/llm_models');
+        const data = await response.json();
+        
+        if (data.success) {
+            updateLLMModelsDisplay(data.data);
+            showLLMModelsContent();
+        } else {
+            showLLMModelsError(data.error || '获取模型列表失败');
+        }
+    } catch (error) {
+        console.error('加载LLM模型失败:', error);
+        showLLMModelsError('网络连接失败');
+    }
+}
+
+// 更新LLM模型显示
+function updateLLMModelsDisplay(modelsData) {
+    // 更新统计数据
+    document.getElementById('totalChatModels').textContent = modelsData.total_chat_models;
+    document.getElementById('totalEmbeddingModels').textContent = modelsData.total_embedding_models;
+    document.getElementById('totalProvidersModal').textContent = modelsData.total_providers;
+    
+    // 生成提供商内容
+    const providersContainer = document.getElementById('providersContainer');
+    providersContainer.innerHTML = '';
+    
+    Object.entries(modelsData.providers).forEach(([providerKey, providerInfo]) => {
+        const providerHtml = generateProviderHtml(providerKey, providerInfo);
+        providersContainer.innerHTML += providerHtml;
+    });
+}
+
+// 生成提供商HTML
+function generateProviderHtml(providerKey, providerInfo) {
+    let html = `
+        <div class="provider-section">
+            <div class="provider-header">
+                <i class="bi bi-cloud me-2"></i>${providerInfo.name}
+            </div>
+            <div class="provider-content">
+    `;
+    
+    // 聊天模型
+    if (providerInfo.chat_models && providerInfo.chat_models.length > 0) {
+        html += `<h6 class="mb-3"><i class="bi bi-chat-dots me-2"></i>聊天模型 (${providerInfo.chat_models.length})</h6>`;
+        providerInfo.chat_models.forEach(model => {
+            html += generateModelCardHtml(model, 'chat');
+        });
+    }
+    
+    // 嵌入模型
+    if (providerInfo.embedding_models && providerInfo.embedding_models.length > 0) {
+        html += `<h6 class="mb-3 mt-4"><i class="bi bi-vector-pen me-2"></i>嵌入模型 (${providerInfo.embedding_models.length})</h6>`;
+        providerInfo.embedding_models.forEach(model => {
+            html += generateModelCardHtml(model, 'embedding');
+        });
+    }
+    
+    html += `
+            </div>
+        </div>
+    `;
+    
+    return html;
+}
+
+// 生成模型卡片HTML
+function generateModelCardHtml(model, type) {
+    const features = [];
+    
+    if (type === 'chat') {
+        if (model.supports_functions) features.push('函数调用');
+        if (model.supports_vision) features.push('视觉理解');
+        if (model.supports_thinking) features.push('思维链');
+        if (model.max_tokens) features.push(`${model.max_tokens} tokens`);
+    } else {
+        if (model.dimensions) features.push(`${model.dimensions}D`);
+        if (model.max_input) features.push(`${model.max_input} input`);
+    }
+    
+    const featuresHtml = features.map(feature => 
+        `<span class="feature-tag">${feature}</span>`
+    ).join('');
+    
+    return `
+        <div class="model-card model-type-${type}">
+            <div class="model-name">${model.display_name}</div>
+            <div class="model-description">${model.description || '暂无描述'}</div>
+            <div class="model-features">${featuresHtml}</div>
+        </div>
+    `;
+}
+
+// 显示LLM模型内容
+function showLLMModelsContent() {
+    document.getElementById('llmModelsLoading').style.display = 'none';
+    document.getElementById('llmModelsContent').style.display = 'block';
+}
+
+// 显示LLM模型错误
+function showLLMModelsError(errorMessage) {
+    const loadingDiv = document.getElementById('llmModelsLoading');
+    loadingDiv.innerHTML = `
+        <div class="text-center">
+            <i class="bi bi-exclamation-triangle text-warning" style="font-size: 3rem;"></i>
+            <p class="mt-2 text-muted">模型列表获取失败</p>
+            <p class="text-danger small">${errorMessage}</p>
+            <button class="btn btn-outline-primary btn-sm mt-2" onclick="loadLLMModels()">
+                <i class="bi bi-arrow-clockwise me-1"></i>重试
+            </button>
+        </div>
+    `;
+}
+
+// 刷新LLM模型列表
+async function refreshLLMModels() {
+    document.getElementById('llmModelsLoading').style.display = 'block';
+    document.getElementById('llmModelsContent').style.display = 'none';
+    await loadLLMModels();
+}
+
+// 添加旋转动画的CSS
+const style = document.createElement('style');
+style.textContent = `
+    .rotating {
+        animation: rotation 1s infinite linear;
+    }
+    
+    @keyframes rotation {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+`;
+document.head.appendChild(style);
+</script>
+{% endblock %}

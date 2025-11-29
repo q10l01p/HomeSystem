@@ -1,0 +1,1298 @@
+{% extends "base.html" %}
+
+{% block title %}模型设置 - PaperAnalysis{% endblock %}
+
+{% block content %}
+<!-- 顶部渐变背景区域 -->
+<div class="hero-section">
+    <div class="container-fluid">
+        <!-- 页面标题和描述 -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="hero-title-wrapper">
+                    <h1 class="hero-title animated-title">
+                        <i class="bi bi-sliders me-3 hero-icon"></i>
+                        <span class="title-gradient">模型设置</span>
+                    </h1>
+                    <div class="hero-title-secondary">
+                        <span class="title-subtitle">Model Configuration</span>
+                    </div>
+                    <p class="hero-subtitle animated-subtitle">🤖 配置系统使用的LLM模型和深度分析参数，优化论文分析性能 ⚙️</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid main-content">
+
+<form id="settingsForm">
+    <!-- LLM模型配置卡片 -->
+    <div class="modern-settings-card" data-aos="fade-up" data-aos-delay="100">
+        <div class="settings-card-header">
+            <div class="settings-icon-wrapper">
+                <div class="settings-icon-bg"></div>
+                <i class="bi bi-cpu settings-icon"></i>
+            </div>
+            <div class="settings-content">
+                <h4 class="settings-title">LLM模型配置</h4>
+                <p class="settings-subtitle">配置用于论文分析的语言模型和参数</p>
+            </div>
+        </div>
+        <div class="settings-card-body">
+            <div class="modern-alert modern-alert-info">
+                <div class="alert-icon">
+                    <i class="bi bi-info-circle"></i>
+                </div>
+                <div class="alert-content">
+                    <div class="alert-title">模型使用说明</div>
+                    <div class="alert-text">这里配置的模型将被论文浏览页面的"开始深度分析"功能和深度分析报告页面的"重新分析"功能共同使用。</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="llm_model_name" class="form-label">默认LLM模型 *</label>
+                    <select class="form-select" id="llm_model_name" name="llm_model_name" required>
+                        {% if available_models %}
+                            {% for model in available_models %}
+                            <option value="{{ model }}" 
+                                    {% if model == default_config.llm_model_name %}selected{% endif %}>
+                                {{ model }}
+                            </option>
+                            {% endfor %}
+                        {% else %}
+                            <option value="">加载中...</option>
+                        {% endif %}
+                    </select>
+                    <div class="form-help">选择用于论文分析的默认语言模型</div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="relevance_threshold" class="form-label">相关性阈值</label>
+                    <div class="slider-container">
+                        <input type="range" class="form-range range-input" id="relevance_threshold" 
+                               name="relevance_threshold" min="0" max="1" step="0.1" 
+                               value="{{ default_config.relevance_threshold if default_config else '0.7' }}">
+                        <div class="d-flex justify-content-between">
+                            <small>0.0</small>
+                            <span class="range-value" id="relevance_value">{{ default_config.relevance_threshold if default_config else '0.7' }}</span>
+                            <small>1.0</small>
+                        </div>
+                    </div>
+                    <div class="form-help">只有超过此相关性分数的论文才会被保留</div>
+                </div>
+            </div>
+            
+            <!-- 高级模型配置 -->
+            <div class="mt-3">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="enable_advanced_models">
+                    <label class="form-check-label" for="enable_advanced_models">
+                        <strong>启用高级模型配置</strong>
+                    </label>
+                </div>
+                <div class="form-help">对不同分析任务使用专门的模型</div>
+            </div>
+            
+            <div id="advanced_models_section" class="mt-3" style="display: none;">
+                <div class="card">
+                    <div class="card-body">
+                        <h6><i class="fas fa-cogs me-2"></i>专用模型配置</h6>
+                        <p class="text-muted small mb-3">为不同分析任务选择专门的模型。留空则使用默认模型。</p>
+                        <div class="modern-alert modern-alert-success small mb-3">
+                            <div class="alert-icon">
+                                <i class="bi bi-lightbulb"></i>
+                            </div>
+                            <div class="alert-content">
+                                <div class="alert-title">重要提示</div>
+                                <div class="alert-text">这里设置的"深度分析模型"和"视觉模型"将被论文浏览和深度分析报告页面的分析功能使用。</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="abstract_analysis_model" class="form-label">摘要分析模型</label>
+                                <select class="form-select" id="abstract_analysis_model" name="abstract_analysis_model">
+                                    <option value="">使用默认模型</option>
+                                    {% if available_models %}
+                                        {% for model in available_models %}
+                                        <option value="{{ model }}">{{ model }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                                <div class="form-help">用于初步摘要相关性分析</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="full_paper_analysis_model" class="form-label">完整论文分析模型</label>
+                                <select class="form-select" id="full_paper_analysis_model" name="full_paper_analysis_model">
+                                    <option value="">使用默认模型</option>
+                                    {% if available_models %}
+                                        {% for model in available_models %}
+                                        <option value="{{ model }}">{{ model }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                                <div class="form-help">用于完整论文深度分析</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="deep_analysis_model" class="form-label">深度分析模型</label>
+                                <select class="form-select" id="deep_analysis_model" name="deep_analysis_model">
+                                    <option value="">使用默认模型 (deepseek.DeepSeek_V3)</option>
+                                    {% if available_models %}
+                                        {% for model in available_models %}
+                                        <option value="{{ model }}">{{ model }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                                <div class="form-help">用于论文深度分析和结构化提取</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="vision_model" class="form-label">视觉模型</label>
+                                <select class="form-select" id="vision_model" name="vision_model">
+                                    <option value="">使用默认模型 (ollama.Qwen2_5_VL_7B)</option>
+                                    {% if available_models %}
+                                        {% for model in available_models %}
+                                        <option value="{{ model }}">{{ model }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                                <div class="form-help">用于图像和图表识别分析</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="video_analysis_model" class="form-label">视频分析模型</label>
+                                <select class="form-select" id="video_analysis_model" name="video_analysis_model">
+                                    <option value="">使用默认模型 (ollama.Qwen3_30B)</option>
+                                    {% if available_models %}
+                                        {% for model in available_models %}
+                                        <option value="{{ model }}">{{ model }}</option>
+                                        {% endfor %}
+                                    {% endif %}
+                                </select>
+                                <div class="form-help">用于视频资源分析和内容理解</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 深度分析配置卡片 -->
+    <div class="modern-settings-card" data-aos="fade-up" data-aos-delay="200">
+        <div class="settings-card-header">
+            <div class="settings-icon-wrapper">
+                <div class="settings-icon-bg"></div>
+                <i class="bi bi-graph-up settings-icon"></i>
+            </div>
+            <div class="settings-content">
+                <h4 class="settings-title">深度分析配置</h4>
+                <p class="settings-subtitle">配置深度分析的触发条件和执行参数</p>
+            </div>
+        </div>
+        <div class="settings-card-body">
+            <div class="modern-alert modern-alert-warning">
+                <div class="alert-icon">
+                    <i class="bi bi-exclamation-triangle"></i>
+                </div>
+                <div class="alert-content">
+                    <div class="alert-title">配置注意事项</div>
+                    <div class="alert-text">深度分析和视觉模型的选择在上方的"LLM模型配置"中的高级模型配置部分进行设置。这里主要配置分析参数和阈值。</div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="enable_deep_analysis" 
+                               name="enable_deep_analysis" checked>
+                        <label class="form-check-label" for="enable_deep_analysis">
+                            <strong>启用深度分析</strong>
+                        </label>
+                    </div>
+                    <div class="form-help">对高相关性论文进行深度分析和结构化提取</div>
+                    
+                    <div id="deep_analysis_options" class="mt-3">
+                        <label for="deep_analysis_threshold" class="form-label">深度分析阈值</label>
+                        <div class="slider-container">
+                            <input type="range" class="form-range range-input" id="deep_analysis_threshold" 
+                                   name="deep_analysis_threshold" min="0" max="1" step="0.1" value="0.8">
+                            <div class="d-flex justify-content-between">
+                                <small>0.0</small>
+                                <span class="range-value" id="deep_analysis_value">0.8</span>
+                                <small>1.0</small>
+                            </div>
+                        </div>
+                        <div class="form-help">相关性分数超过此值的论文会进行深度分析</div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="ocr_char_limit_for_analysis" class="form-label">OCR字符限制</label>
+                    <input type="number" class="form-control" id="ocr_char_limit_for_analysis" 
+                           name="ocr_char_limit_for_analysis" value="10000" 
+                           min="1000" max="50000" step="1000">
+                    <div class="form-help">用于LLM分析的最大OCR字符数（默认10000字符）</div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="enable_remote_ocr" 
+                               name="enable_remote_ocr">
+                        <label class="form-check-label" for="enable_remote_ocr">
+                            <strong>启用远程OCR服务</strong>
+                        </label>
+                    </div>
+                    <div class="form-help">使用远程PaddleOCR服务进行论文文字识别（需要部署远程OCR服务）</div>
+                    
+                    <div id="remote_ocr_options" class="mt-3" style="display: none;">
+                        <label for="remote_ocr_endpoint" class="form-label">远程OCR服务地址</label>
+                        <input type="url" class="form-control" id="remote_ocr_endpoint" 
+                               name="remote_ocr_endpoint" value="http://localhost:5001" 
+                               placeholder="http://localhost:5001">
+                        <div class="form-help mb-2">远程OCR服务的API地址</div>
+                        
+                        <label for="remote_ocr_timeout" class="form-label">OCR超时时间 (秒)</label>
+                        <input type="number" class="form-control" id="remote_ocr_timeout" 
+                               name="remote_ocr_timeout" value="300" 
+                               min="60" max="1800" step="30">
+                        <div class="form-help">远程OCR请求的最大等待时间</div>
+                        
+                        <label for="remote_ocr_max_pages" class="form-label">OCR最大处理页数</label>
+                        <input type="number" class="form-control" id="remote_ocr_max_pages" 
+                               name="remote_ocr_max_pages" value="25" 
+                               min="1" max="100" step="1">
+                        <div class="form-help">远程OCR处理的最大页数（用于元数据提取和完整分析）</div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="analysis_timeout" class="form-label">分析超时时间 (秒)</label>
+                    <input type="number" class="form-control" id="analysis_timeout" name="analysis_timeout" 
+                           min="300" max="1800" value="600" required>
+                    <div class="form-help">单个论文深度分析的最大等待时间</div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" id="enable_video_analysis" 
+                               name="enable_video_analysis">
+                        <label class="form-check-label" for="enable_video_analysis">
+                            <strong>启用视频分析功能</strong>
+                        </label>
+                    </div>
+                    <div class="form-help">对论文相关网页中的视频内容进行自动下载和分析</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 保存设置卡片 -->
+    <div class="modern-settings-card" data-aos="fade-up" data-aos-delay="300">
+        <div class="settings-card-header">
+            <div class="settings-icon-wrapper">
+                <div class="settings-icon-bg"></div>
+                <i class="bi bi-check-circle settings-icon"></i>
+            </div>
+            <div class="settings-content">
+                <h4 class="settings-title">保存设置</h4>
+                <p class="settings-subtitle">修改后的配置将应用到后续的任务执行中</p>
+            </div>
+        </div>
+        <div class="settings-card-body">
+            <div class="d-flex justify-content-end gap-3">
+                <button type="button" class="btn modern-action-btn reset-btn" onclick="resetSettings()">
+                    <div class="btn-icon-wrapper">
+                        <i class="bi bi-arrow-counterclockwise btn-icon"></i>
+                    </div>
+                    <div class="btn-content">
+                        <span class="btn-title">重置设置</span>
+                        <span class="btn-subtitle">Reset</span>
+                    </div>
+                </button>
+                <button type="submit" class="btn modern-action-btn save-btn" id="saveBtn">
+                    <div class="btn-icon-wrapper">
+                        <i class="bi bi-check-lg btn-icon"></i>
+                    </div>
+                    <div class="btn-content">
+                        <span class="btn-title">保存设置</span>
+                        <span class="btn-subtitle">Save</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</form>
+
+</div>
+
+<!-- 结果提示模态框 -->
+<div class="modal fade" id="resultModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">设置结果</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="关闭"></button>
+            </div>
+            <div class="modal-body">
+                <div id="resultContent"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="关闭设置结果对话框">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<!-- AOS Animation Library -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+<style>
+/* ==============================================
+   现代化设置页面样式 - 与首页风格一致
+============================================== */
+
+/* 根变量定义 - 与index.html保持一致 */
+:root {
+    --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    --warning-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    --info-gradient: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    --danger-gradient: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+    --glass-bg: rgba(255, 255, 255, 0.15);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --shadow-light: 0 8px 32px rgba(31, 38, 135, 0.15);
+    --shadow-medium: 0 12px 40px rgba(31, 38, 135, 0.25);
+    --shadow-strong: 0 16px 48px rgba(31, 38, 135, 0.35);
+}
+
+/* 页面整体背景 */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+/* Hero Section - 顶部渐变区域 */
+.hero-section {
+    background: var(--primary-gradient);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    padding: 2rem 0 3rem;
+    margin: -1.5rem -15px 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 100%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 20%, transparent 70%);
+    animation: floatBubble 20s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+@keyframes floatBubble {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    33% { transform: translateY(-20px) rotate(2deg); }
+    66% { transform: translateY(10px) rotate(-1deg); }
+}
+
+/* Hero Title Styling */
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: white;
+    text-shadow: 2px 4px 20px rgba(0,0,0,0.3);
+    margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-icon {
+    background: rgba(255,255,255,0.2);
+    padding: 0.5rem;
+    border-radius: 50%;
+    backdrop-filter: blur(10px);
+    animation: iconPulse 3s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 20px rgba(255,255,255,0.3); }
+    50% { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,255,255,0.5); }
+}
+
+.title-gradient {
+    background: linear-gradient(45deg, #fff, #e0e8ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-title-secondary {
+    margin-top: 0.5rem;
+}
+
+.title-subtitle {
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.85);
+    text-shadow: 1px 2px 8px rgba(0,0,0,0.2);
+    letter-spacing: 1px;
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 1px 2px 10px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 2;
+}
+
+/* Main Content */
+.main-content {
+    position: relative;
+    z-index: 1;
+    margin-top: -2rem;
+}
+
+/* 现代化设置卡片 */
+.modern-settings-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: var(--shadow-light);
+    border: 1px solid rgba(255,255,255,0.3);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.modern-settings-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    border-radius: 20px 20px 0 0;
+    background: var(--primary-gradient);
+}
+
+.modern-settings-card:nth-child(2)::before {
+    background: var(--success-gradient);
+}
+
+.modern-settings-card:nth-child(3)::before {
+    background: var(--warning-gradient);
+}
+
+.modern-settings-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: var(--shadow-strong);
+}
+
+.settings-card-header {
+    padding: 2rem 2rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.settings-icon-wrapper {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.settings-icon-bg {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    opacity: 0.1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--primary-gradient);
+}
+
+.modern-settings-card:nth-child(2) .settings-icon-bg {
+    background: var(--success-gradient);
+}
+
+.modern-settings-card:nth-child(3) .settings-icon-bg {
+    background: var(--warning-gradient);
+}
+
+.settings-icon {
+    font-size: 2rem;
+    position: relative;
+    z-index: 1;
+    color: #667eea;
+    transition: all 0.3s ease;
+}
+
+.modern-settings-card:nth-child(2) .settings-icon {
+    color: #4facfe;
+}
+
+.modern-settings-card:nth-child(3) .settings-icon {
+    color: #fa709a;
+}
+
+.settings-content {
+    flex: 1;
+}
+
+.settings-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.modern-settings-card:nth-child(2) .settings-title {
+    background: var(--success-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.modern-settings-card:nth-child(3) .settings-title {
+    background: var(--warning-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.settings-subtitle {
+    color: #64748b;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.settings-card-body {
+    padding: 0 2rem 2rem;
+}
+
+/* 现代化提示框 */
+.modern-alert {
+    border-radius: 15px;
+    border: none;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.modern-alert::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 4px;
+}
+
+.modern-alert-info {
+    background: linear-gradient(135deg, rgba(168, 237, 234, 0.1) 0%, rgba(254, 214, 227, 0.1) 100%);
+    border: 1px solid rgba(168, 237, 234, 0.3);
+}
+
+.modern-alert-info::before {
+    background: var(--info-gradient);
+}
+
+.modern-alert-warning {
+    background: linear-gradient(135deg, rgba(250, 112, 154, 0.1) 0%, rgba(254, 225, 64, 0.1) 100%);
+    border: 1px solid rgba(250, 112, 154, 0.3);
+}
+
+.modern-alert-warning::before {
+    background: var(--warning-gradient);
+}
+
+.modern-alert-success {
+    background: linear-gradient(135deg, rgba(79, 172, 254, 0.1) 0%, rgba(0, 242, 254, 0.1) 100%);
+    border: 1px solid rgba(79, 172, 254, 0.3);
+}
+
+.modern-alert-success::before {
+    background: var(--success-gradient);
+}
+
+.alert-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.modern-alert-info .alert-icon {
+    background: var(--info-gradient);
+    color: white;
+}
+
+.modern-alert-warning .alert-icon {
+    background: var(--warning-gradient);
+    color: white;
+}
+
+.modern-alert-success .alert-icon {
+    background: var(--success-gradient);
+    color: white;
+}
+
+.alert-content {
+    flex: 1;
+}
+
+.alert-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+    color: #1e293b;
+}
+
+.alert-text {
+    color: #64748b;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* 现代化表单元素 */
+.form-label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.75rem;
+    font-size: 0.9rem;
+}
+
+.form-select, .form-control {
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.form-select:focus, .form-control:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    outline: none;
+}
+
+.form-help {
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+    line-height: 1.4;
+}
+
+/* 现代化滑块 */
+.slider-container {
+    padding: 1rem 0;
+    background: rgba(255,255,255,0.5);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(102, 126, 234, 0.1);
+}
+
+.form-range {
+    height: 8px;
+    background: linear-gradient(90deg, #e5e7eb 0%, #d1d5db 100%);
+    border-radius: 4px;
+    outline: none;
+    border: none;
+    appearance: none;
+}
+
+/* WebKit browsers (Chrome, Safari, newer Edge) */
+.form-range::-webkit-slider-track {
+    height: 8px;
+    background: linear-gradient(90deg, #e5e7eb 0%, #d1d5db 100%);
+    border-radius: 4px;
+    border: none;
+}
+
+.form-range::-webkit-slider-thumb {
+    appearance: none;
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+    transition: all 0.3s ease;
+    border: 2px solid white;
+    margin-top: -8px;
+}
+
+.form-range::-webkit-slider-thumb:hover {
+    transform: scale(1.15);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+/* Firefox */
+.form-range::-moz-range-track {
+    height: 8px;
+    background: linear-gradient(90deg, #e5e7eb 0%, #d1d5db 100%);
+    border-radius: 4px;
+    border: none;
+}
+
+.form-range::-moz-range-thumb {
+    height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    cursor: pointer;
+    border: 2px solid white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.range-value {
+    font-weight: 700;
+    color: #667eea;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* 现代化开关 */
+.form-check-input:checked {
+    background-color: #667eea;
+    border-color: #667eea;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23fff'/%3e%3c/svg%3e");
+}
+
+.form-check-input:focus {
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.25);
+}
+
+.form-check-label {
+    font-weight: 600;
+    color: #374151;
+}
+
+/* 现代化按钮 */
+.modern-action-btn {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    text-decoration: none;
+    color: #374151;
+    min-width: 160px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.save-btn {
+    background: var(--success-gradient) !important;
+    border: 2px solid transparent !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4) !important;
+}
+
+.save-btn .btn-title,
+.save-btn .btn-subtitle {
+    color: white !important;
+}
+
+.save-btn:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 8px 25px rgba(79, 172, 254, 0.6) !important;
+    color: white !important;
+}
+
+.reset-btn {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+    border: 2px solid #dee2e6 !important;
+    color: #495057 !important;
+}
+
+.reset-btn .btn-title,
+.reset-btn .btn-subtitle {
+    color: #495057 !important;
+}
+
+.reset-btn:hover {
+    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%) !important;
+    border-color: #adb5bd !important;
+    transform: translateY(-2px) !important;
+    box-shadow: var(--shadow-light) !important;
+    color: #495057 !important;
+}
+
+.reset-btn:hover .btn-title,
+.reset-btn:hover .btn-subtitle {
+    color: #495057 !important;
+}
+
+.btn-icon-wrapper {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.05);
+    flex-shrink: 0;
+}
+
+.save-btn .btn-icon-wrapper {
+    background: rgba(255,255,255,0.3) !important;
+}
+
+.reset-btn .btn-icon-wrapper {
+    background: rgba(0,0,0,0.08) !important;
+}
+
+.reset-btn .btn-icon {
+    color: #495057 !important;
+}
+
+.btn-icon {
+    font-size: 1.2rem;
+    color: inherit;
+}
+
+.btn-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1;
+}
+
+.btn-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1;
+}
+
+.btn-subtitle {
+    font-size: 0.75rem;
+    opacity: 0.8;
+    margin-top: 0.1rem;
+}
+
+/* 加载状态 */
+.modern-action-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* 旋转动画 */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .settings-card-header {
+        padding: 1.5rem;
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .settings-card-body {
+        padding: 0 1.5rem 1.5rem;
+    }
+    
+    .modern-action-btn {
+        min-width: 140px;
+        padding: 0.875rem 1.25rem;
+    }
+    
+    .d-flex.gap-3 {
+        flex-direction: column;
+        gap: 1rem !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section {
+        margin-left: -15px;
+        margin-right: -15px;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .title-subtitle {
+        display: block;
+        margin-left: 0;
+        margin-top: 0.5rem;
+        font-size: 1rem;
+    }
+    
+    .modern-settings-card {
+        margin-left: -15px;
+        margin-right: -15px;
+        border-radius: 15px;
+    }
+}
+</style>
+
+<script>
+$(document).ready(function() {
+    // 滑块值更新
+    $('#relevance_threshold').on('input', function() {
+        $('#relevance_value').text($(this).val());
+    });
+
+    $('#deep_analysis_threshold').on('input', function() {
+        $('#deep_analysis_value').text($(this).val());
+    });
+
+    // 深度分析开关
+    $('#enable_deep_analysis').change(function() {
+        if ($(this).is(':checked')) {
+            $('#deep_analysis_options').show();
+        } else {
+            $('#deep_analysis_options').hide();
+        }
+    });
+
+    // 远程OCR开关
+    $('#enable_remote_ocr').change(function() {
+        if ($(this).is(':checked')) {
+            $('#remote_ocr_options').show();
+        } else {
+            $('#remote_ocr_options').hide();
+        }
+    });
+
+    // 高级模型配置开关
+    $('#enable_advanced_models').change(function() {
+        if ($(this).is(':checked')) {
+            $('#advanced_models_section').show();
+        } else {
+            $('#advanced_models_section').hide();
+            // 清空高级配置选择
+            $('#abstract_analysis_model, #full_paper_analysis_model, #deep_analysis_model, #vision_model, #video_analysis_model').val('');
+        }
+    });
+
+    // 表单提交
+    $('#settingsForm').submit(function(e) {
+        e.preventDefault();
+        saveSettings();
+    });
+
+    // 模态框焦点管理，修复可访问性问题
+    let modalTriggerElement = null;
+    
+    $('#resultModal').on('show.bs.modal', function (e) {
+        // 保存触发模态框的元素
+        modalTriggerElement = document.activeElement;
+    });
+
+    $('#resultModal').on('hide.bs.modal', function (e) {
+        // 在模态框隐藏前，将焦点从模态框内的元素移开
+        $(this).find('button, [tabindex]').blur();
+    });
+
+    $('#resultModal').on('hidden.bs.modal', function (e) {
+        // 模态框完全隐藏后，将焦点返回到触发元素
+        if (modalTriggerElement && modalTriggerElement.focus) {
+            modalTriggerElement.focus();
+        }
+        modalTriggerElement = null;
+    });
+
+    // 加载可用模型列表（如果模板中没有加载）
+    if ($('#llm_model_name option').length <= 1) {
+        loadAvailableModels();
+    }
+    
+    // 加载现有配置
+    loadSettings();
+
+    // 初始化AOS动画
+    AOS.init({
+        duration: 800,
+        easing: 'ease-in-out-cubic',
+        once: true,
+        offset: 100,
+        delay: 100
+    });
+});
+
+function loadAvailableModels() {
+    $.ajax({
+        url: '/api/models',
+        method: 'GET',
+        success: function(response) {
+            if (response.success && response.data) {
+                const modelSelects = [
+                    '#llm_model_name',
+                    '#abstract_analysis_model', 
+                    '#full_paper_analysis_model',
+                    '#deep_analysis_model',
+                    '#vision_model',
+                    '#video_analysis_model'
+                ];
+                
+                modelSelects.forEach(function(selectId) {
+                    const select = $(selectId);
+                    const currentValue = select.val();
+                    
+                    // 保留现有选项的第一个（默认选项）
+                    const firstOption = select.find('option').first();
+                    select.empty().append(firstOption);
+                    
+                    // 添加模型选项
+                    response.data.forEach(function(model) {
+                        const option = $('<option></option>');
+                        option.val(model).text(model);
+                        if (model === currentValue) {
+                            option.prop('selected', true);
+                        }
+                        select.append(option);
+                    });
+                });
+            }
+        },
+        error: function() {
+            showResult('加载模型列表失败', false);
+        }
+    });
+}
+
+function saveSettings() {
+    const formData = getSettingsData();
+    
+    $('#saveBtn').prop('disabled', true);
+    $('#saveBtn .btn-icon').removeClass('bi-check-lg').addClass('bi-arrow-clockwise');
+    $('#saveBtn .btn-icon').css('animation', 'spin 1s linear infinite');
+    $('#saveBtn .btn-title').text('保存中...');
+    $('#saveBtn .btn-subtitle').text('Saving...');
+    
+    $.ajax({
+        url: '/api/settings/save',
+        method: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(formData),
+        success: function(response) {
+            if (response.success) {
+                showResult('设置保存成功！', true);
+            } else {
+                showResult('设置保存失败: ' + response.error, false);
+            }
+        },
+        error: function(xhr) {
+            const response = xhr.responseJSON || {error: '请求失败'};
+            showResult('设置保存失败: ' + response.error, false);
+        },
+        complete: function() {
+            $('#saveBtn').prop('disabled', false);
+            $('#saveBtn .btn-icon').removeClass('bi-arrow-clockwise').addClass('bi-check-lg');
+            $('#saveBtn .btn-icon').css('animation', '');
+            $('#saveBtn .btn-title').text('保存设置');
+            $('#saveBtn .btn-subtitle').text('Save');
+        }
+    });
+}
+
+function getSettingsData() {
+    const formData = {};
+    const form = document.getElementById('settingsForm');
+    const formDataObj = new FormData(form);
+    
+    for (let [key, value] of formDataObj.entries()) {
+        if (key.includes('threshold')) {
+            formData[key] = parseFloat(value);
+        } else if (key.includes('char_limit') || key.includes('timeout')) {
+            formData[key] = parseInt(value);
+        } else {
+            formData[key] = value;
+        }
+    }
+    
+    // 处理复选框
+    formData['enable_deep_analysis'] = $('#enable_deep_analysis').is(':checked');
+    formData['enable_video_analysis'] = $('#enable_video_analysis').is(':checked');
+    formData['enable_remote_ocr'] = $('#enable_remote_ocr').is(':checked');
+    
+    // 处理高级模型配置 - 空值转换为null
+    const advancedModelFields = ['abstract_analysis_model', 'full_paper_analysis_model', 
+                                'deep_analysis_model', 'vision_model', 'video_analysis_model'];
+    for (const field of advancedModelFields) {
+        if (!formData[field] || formData[field] === '') {
+            formData[field] = null;
+        }
+    }
+    
+    return formData;
+}
+
+function resetSettings() {
+    if (confirm('确定要重置所有设置为默认值吗？')) {
+        // 重置表单
+        document.getElementById('settingsForm').reset();
+        
+        // 重置滑块显示
+        $('#relevance_value').text($('#relevance_threshold').val());
+        $('#deep_analysis_value').text($('#deep_analysis_threshold').val());
+        
+        // 重置高级模型配置显示状态
+        $('#enable_advanced_models').prop('checked', false);
+        $('#advanced_models_section').hide();
+        
+        // 重置深度分析选项显示
+        if (!$('#enable_deep_analysis').is(':checked')) {
+            $('#deep_analysis_options').hide();
+        } else {
+            $('#deep_analysis_options').show();
+        }
+    }
+}
+
+function loadSettings() {
+    $.ajax({
+        url: '/api/settings/load',
+        method: 'GET',
+        success: function(response) {
+            if (response.success && response.config && Object.keys(response.config).length > 0) {
+                const config = response.config;
+                
+                // 填充LLM配置
+                if (config.llm_model_name) {
+                    $('#llm_model_name').val(config.llm_model_name);
+                }
+                if (config.relevance_threshold !== undefined) {
+                    $('#relevance_threshold').val(config.relevance_threshold);
+                    $('#relevance_value').text(config.relevance_threshold);
+                }
+                
+                // 填充高级模型配置
+                if (config.abstract_analysis_model || config.full_paper_analysis_model || 
+                    config.deep_analysis_model || config.vision_model || config.video_analysis_model) {
+                    $('#enable_advanced_models').prop('checked', true);
+                    $('#advanced_models_section').show();
+                    
+                    if (config.abstract_analysis_model) {
+                        $('#abstract_analysis_model').val(config.abstract_analysis_model);
+                    }
+                    if (config.full_paper_analysis_model) {
+                        $('#full_paper_analysis_model').val(config.full_paper_analysis_model);
+                    }
+                    if (config.deep_analysis_model) {
+                        $('#deep_analysis_model').val(config.deep_analysis_model);
+                    }
+                    if (config.vision_model) {
+                        $('#vision_model').val(config.vision_model);
+                    }
+                    if (config.video_analysis_model) {
+                        $('#video_analysis_model').val(config.video_analysis_model);
+                    }
+                }
+                
+                // 填充深度分析配置
+                if (config.enable_deep_analysis !== undefined) {
+                    $('#enable_deep_analysis').prop('checked', config.enable_deep_analysis);
+                    if (config.enable_deep_analysis) {
+                        $('#deep_analysis_options').show();
+                    } else {
+                        $('#deep_analysis_options').hide();
+                    }
+                }
+                if (config.deep_analysis_threshold !== undefined) {
+                    $('#deep_analysis_threshold').val(config.deep_analysis_threshold);
+                    $('#deep_analysis_value').text(config.deep_analysis_threshold);
+                }
+                if (config.ocr_char_limit_for_analysis !== undefined) {
+                    $('#ocr_char_limit_for_analysis').val(config.ocr_char_limit_for_analysis);
+                }
+                if (config.analysis_timeout !== undefined) {
+                    $('#analysis_timeout').val(config.analysis_timeout);
+                }
+                if (config.enable_video_analysis !== undefined) {
+                    $('#enable_video_analysis').prop('checked', config.enable_video_analysis);
+                }
+                
+                // 填充远程OCR配置
+                if (config.enable_remote_ocr !== undefined) {
+                    $('#enable_remote_ocr').prop('checked', config.enable_remote_ocr);
+                    if (config.enable_remote_ocr) {
+                        $('#remote_ocr_options').show();
+                    } else {
+                        $('#remote_ocr_options').hide();
+                    }
+                }
+                if (config.remote_ocr_endpoint !== undefined) {
+                    $('#remote_ocr_endpoint').val(config.remote_ocr_endpoint);
+                }
+                if (config.remote_ocr_timeout !== undefined) {
+                    $('#remote_ocr_timeout').val(config.remote_ocr_timeout);
+                }
+                if (config.remote_ocr_max_pages !== undefined) {
+                    $('#remote_ocr_max_pages').val(config.remote_ocr_max_pages);
+                }
+                
+                console.log('设置加载成功:', config);
+            }
+        },
+        error: function(xhr) {
+            console.warn('加载设置失败:', xhr.responseJSON || xhr.statusText);
+        }
+    });
+}
+
+function showResult(message, success) {
+    const alertClass = success ? 'alert-success' : 'alert-danger';
+    const iconClass = success ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+    
+    const html = `
+        <div class="alert ${alertClass}">
+            <i class="${iconClass} me-2"></i>${message}
+        </div>
+    `;
+    
+    $('#resultContent').html(html);
+    $('#resultModal').modal('show');
+}
+</script>
+{% endblock %}

@@ -1,0 +1,519 @@
+# LLM厂商配置文件 - 2025年最新版本
+# 仅包含32B以上参数的模型（本地Ollama使用14B以上）
+
+
+
+providers:
+  deepseek:
+    name: DeepSeek
+    description: DeepSeek AI - 深度求索最新V3和R1系列
+    type: openai_compatible
+    api_key_env: DEEPSEEK_API_KEY
+    base_url_env: DEEPSEEK_BASE_URL
+    base_url: https://api.deepseek.com
+    models:
+    - name: deepseek-chat
+      key: deepseek.DeepSeek_V3
+      display_name: DeepSeek V3
+      parameters: 671B总参数/37B激活
+      max_tokens: 131072
+      supports_functions: true
+      supports_vision: false
+      context_length: 131072
+      description: MoE架构，14.8万亿token训练
+    - name: deepseek-reasoner
+      key: deepseek.DeepSeek_R1
+      display_name: DeepSeek R1
+      parameters: 推理专用模型
+      max_tokens: 131072
+      supports_functions: true
+      supports_vision: false
+      context_length: 131072
+      description: 最新推理模型，AIME 2025达87.5%准确率
+  siliconflow:
+    name: SiliconFlow
+    description: 硅基流动 - 高性能推理平台，支持多种大模型
+    type: openai_compatible
+    api_key_env: SILICONFLOW_API_KEY
+    base_url_env: SILICONFLOW_BASE_URL
+    base_url: https://api.siliconflow.cn/v1
+    models:
+    - name: deepseek-ai/DeepSeek-R1
+      key: siliconflow.DeepSeek_R1
+      display_name: DeepSeek R1 (硅基流动)
+      parameters: 推理优化版本
+      max_tokens: 131072
+      supports_functions: true
+      supports_vision: false
+      context_length: 131072
+      description: 通过硅基流动提供的DeepSeek R1
+    - name: deepseek-ai/DeepSeek-V3
+      key: siliconflow.DeepSeek_V3
+      display_name: DeepSeek V3 (硅基流动)
+      parameters: 671B总参数/37B激活
+      max_tokens: 131072
+      supports_functions: true
+      supports_vision: false
+      context_length: 131072
+      description: 通过硅基流动提供的DeepSeek V3
+    - name: Qwen/QwQ-32B-Preview
+      key: siliconflow.QwQ_32B
+      display_name: 通义千问 QwQ-32B
+      parameters: 32B
+      max_tokens: 32768
+      supports_functions: true
+      supports_vision: false
+      context_length: 32768
+      description: 阿里通义千问推理增强版本
+    - name: Qwen/Qwen2.5-72B-Instruct
+      key: siliconflow.Qwen2_5_72B
+      display_name: 通义千问 2.5-72B
+      parameters: 72B
+      max_tokens: 131072
+      supports_functions: true
+      supports_vision: false
+      context_length: 131072
+      description: 通义千问2.5系列最强版本
+    - name: Qwen/QwQ-32B-Preview
+      key: siliconflow.QwQ_32B
+      display_name: 通义千问 QwQ-32B
+      parameters: 32B
+      max_tokens: 32768
+      supports_functions: true
+      supports_vision: false
+      context_length: 32768
+      description: 阿里通义千问推理增强版本
+    - name: Qwen/Qwen3-235B-A22B-Instruct-2507
+      key: siliconflow.Qwen3_235B_A22B
+      display_name: 通义千问 3-235B-A22B
+      parameters: 235B
+      max_tokens: 10240 # 256K上下文
+      supports_functions: true
+      supports_vision: false
+      context_length: 262144
+      description: 通义千问3系列最强版本
+    - name: Qwen/Qwen3-235B-A22B-Thinking-2507
+      key: siliconflow.Qwen3_235B_A22B_Thinking
+      display_name: 通义千问 3-235B-A22B-思考
+      parameters: 235B
+      max_tokens: 10240 # 256K上下文
+      supports_functions: true
+      supports_vision: false
+      context_length: 262144
+      description: 通义千问3系列最强版本
+  volcano:
+    name: Volcano Engine
+    description: 火山引擎 - 豆包1.6系列大模型
+    type: openai_compatible
+    api_key_env: VOLCANO_API_KEY
+    base_url_env: VOLCANO_BASE_URL
+    base_url: https://ark.cn-beijing.volces.com/api/v3
+    models:
+    - name: doubao-seed-1.6
+      key: volcano.Doubao_1_6
+      display_name: 豆包1.6 全能版
+      parameters: 未公开参数量
+      max_tokens: 16384
+      supports_functions: true
+      supports_vision: false
+      context_length: 256000
+      description: All-in-One综合模型，支持深度思考和多模态
+    - name: doubao-seed-1.6-thinking
+      key: volcano.Doubao_1_6_Thinking
+      display_name: 豆包1.6 深度思考版
+      parameters: 未公开参数量
+      max_tokens: 16384
+      supports_functions: true
+      supports_vision: false
+      context_length: 256000
+      description: 深度思考强化版，数学推理能力突出
+    - name: doubao-seed-1.6-flash
+      key: volcano.Doubao_1_6_Flash
+      display_name: 豆包1.6 极速版
+      parameters: 未公开参数量
+      max_tokens: 16384
+      supports_functions: true
+      supports_vision: false
+      context_length: 256000
+      description: 极低延迟版本，TOPT仅需10ms，支持256K上下文
+  moonshot:
+    name: MoonShot
+    description: 月之暗面 - Kimi K2万亿参数智能体模型
+    type: openai_compatible
+    api_key_env: MOONSHOT_API_KEY
+    base_url_env: MOONSHOT_BASE_URL
+    base_url: https://api.moonshot.cn/v1
+    models:
+    - name: kimi-k2-0711-preview
+      key: moonshot.Kimi_K2
+      display_name: Kimi K2
+      parameters: 1T总参数/32B激活
+      max_tokens: 16384
+      supports_functions: true
+      supports_vision: false
+      context_length: 131072
+      description: 万亿参数MoE智能体模型，专注代码和推理
+    - name: moonshot-v1-128k
+      key: moonshot.Kimi_V1_128K
+      display_name: Kimi v1 128K
+      parameters: 未公开参数量
+      max_tokens: 16384
+      supports_functions: true
+      supports_vision: false
+      context_length: 131072
+      description: 长上下文处理专用版本
+  zhipuai:
+    name: ZhipuAI
+    description: 智谱AI - GLM-4.5系列智能体原生大模型
+    type: openai_compatible
+    api_key_env: ZHIPUAI_API_KEY
+    base_url_env: ZHIPUAI_BASE_URL
+    base_url: https://open.bigmodel.cn/api/paas/v4
+    models:
+    - name: glm-4.5
+      key: zhipuai.GLM_4_5
+      display_name: GLM-4.5
+      parameters: 355B总参数/32B激活
+      max_tokens: 32768
+      supports_functions: true
+      supports_vision: false
+      context_length: 131072
+      description: 智能体原生旗舰模型，MoE架构，全球排名第3
+    - name: glm-4.5-air
+      key: zhipuai.GLM_4_5_Air
+      display_name: GLM-4.5-Air
+      parameters: 106B总参数/12B激活
+      max_tokens: 32768
+      supports_functions: true
+      supports_vision: false
+      context_length: 131072
+      description: 轻量化版本，高效智能体模型，性能评分59.8
+  alibaba:
+    name: Alibaba Cloud DashScope
+    description: 阿里云灵积平台 - 通义千问系列大模型
+    type: openai_compatible
+    api_key_env: DASHSCOPE_API_KEY
+    base_url_env: DASHSCOPE_BASE_URL
+    base_url: https://dashscope.aliyuncs.com/compatible-mode/v1
+    models:
+    - name: qwen-turbo-latest
+      key: alibaba.Qwen_Turbo_Latest
+      display_name: 通义千问Turbo最新版
+      parameters: 高效轻量级模型
+      max_tokens: 8192
+      supports_functions: true
+      supports_vision: false
+      context_length: 131072
+      supports_thinking: true
+      thinking_max_length: 32768
+      description: 最新版Turbo模型，支持思考模式，速度最快成本最低，适合简单任务
+    - name: qwen-turbo
+      key: alibaba.Qwen_Turbo
+      display_name: 通义千问Turbo
+      parameters: 高效轻量级模型
+      max_tokens: 8192
+      supports_functions: true
+      supports_vision: false
+      context_length: 131072
+      description: 高效轻量级模型，速度快成本低，适合日常对话和简单任务
+    - name: qwen-plus
+      key: alibaba.Qwen_Plus
+      display_name: 通义千问Plus
+      parameters: 平衡性能模型
+      max_tokens: 32768
+      supports_functions: true
+      supports_vision: false
+      context_length: 131072
+      supports_thinking: true
+      thinking_max_length: 65536
+      description: 平衡性能与成本的模型，支持思考模式，适合复杂推理任务
+    - name: qwen3-235b-a22b-instruct-2507
+      key: alibaba.Qwen3_235B_A22B
+      display_name: 通义千问3-235B-A22B
+      parameters: 235B参数MoE架构
+      max_tokens: 32768
+      supports_functions: true
+      supports_vision: false
+      context_length: 262144
+      description: 通义千问3系列最强版本，MoE架构，支持256K上下文
+    - name: qwen3-235b-a22b-thinking-2507
+      key: alibaba.Qwen3_235B_A22B_Thinking
+      display_name: 通义千问3-235B-A22B-思考版
+      parameters: 235B参数MoE架构
+      max_tokens: 32768
+      supports_functions: true
+      supports_vision: false
+      context_length: 262144
+      supports_thinking: true
+      thinking_max_length: 81920
+      description: 专门的思考模式模型，支持80K推理过程长度，在复杂推理任务上表现卓越
+  ollama:
+    name: Ollama
+    description: 本地部署的开源大模型 (14B以上参数)
+    type: ollama
+    api_key_env: ''
+    base_url_env: OLLAMA_BASE_URL
+    base_url: http://localhost:11434
+    models:
+    - name: deepseek-r1:14b
+      key: ollama.DeepSeek_R1_14B
+      display_name: DeepSeek R1 14B
+      parameters: 14B
+      max_tokens: 32768
+      supports_functions: false
+      supports_vision: false
+      context_length: 131072
+      description: DeepSeek推理模型14B版本，支持128K上下文
+    - name: qwen2.5vl:7b
+      key: ollama.Qwen2_5_VL_7B
+      display_name: 通义千问 2.5-VL-7B (视觉)
+      parameters: 7B
+      max_tokens: 32768
+      supports_functions: false
+      supports_vision: true
+      context_length: 131072
+      description: 通义千问2.5系列7B版本，支持视觉和图片分析
+    - name: qwen2.5vl:3b
+      key: ollama.Qwen2_5_VL_3B
+      display_name: 通义千问 2.5-VL-3B (视觉)
+      parameters: 3B
+      max_tokens: 32768
+      supports_functions: false
+      supports_vision: true
+      context_length: 131072
+      description: 通义千问2.5系列3B版本，支持视觉和图片分析
+    - name: qwen3:30b
+      key: ollama.Qwen3_30B
+      display_name: 通义千问3 30B
+      parameters: 30B
+      max_tokens: 32768
+      supports_functions: false
+      supports_vision: false
+      context_length: 131072
+      description: MoE架构代码专用模型，多语言支持，支持128K上下文
+    - name: qwen3
+      key: ollama.Qwen3_8B
+      display_name: 通义千问3 8B
+      parameters: 8B
+      max_tokens: 32768
+      supports_functions: false
+      supports_vision: false
+      context_length: 131072
+      description: MoE架构代码专用模型，多语言支持，支持128K上下文
+    - name: qwen3:4b
+      key: ollama.Qwen3_4B
+      display_name: 通义千问3 4B
+      parameters: 4B
+      max_tokens: 32768
+      supports_functions: false
+      supports_vision: false
+      context_length: 131072
+      description: MoE架构代码专用模型，多语言支持，支持128K上下文
+    - name: gpt-oss
+      key: ollama.gpt-oss
+      display_name: Open AI GPT OSS
+      parameters: 20B
+      max_tokens: 32768
+      supports_functions: false
+      supports_vision: false
+      context_length: 131072
+      description: MoE架构代码专用模型，多语言支持，支持128K上下文
+embedding_providers:
+  ollama_embedding:
+    name: Ollama Embedding
+    description: 本地部署的Embedding模型
+    type: ollama_embedding
+    api_key_env: ''
+    base_url_env: OLLAMA_BASE_URL
+    base_url: http://localhost:11434
+    models:
+    - name: bge-m3:latest
+      key: ollama.BGE_M3
+      display_name: BGE-M3
+      parameters: 560M
+      dimensions: 1024
+      max_input_length: 8192
+      description: BAAI开源的多语言embedding模型，支持中英文
+    - name: nomic-embed-text:latest
+      key: ollama.Nomic_Embed_Text
+      display_name: Nomic Embed Text
+      parameters: 137M
+      dimensions: 768
+      max_input_length: 2048
+      description: 高效的英文文本embedding模型
+    - name: mxbai-embed-large:latest
+      key: ollama.MxBai_Embed_Large
+      display_name: MxBai Embed Large
+      parameters: 335M
+      dimensions: 1024
+      max_input_length: 512
+      description: 高质量的通用embedding模型
+  openai_embedding:
+    name: OpenAI Embedding
+    description: OpenAI提供的embedding服务
+    type: openai_embedding
+    api_key_env: OPENAI_API_KEY
+    base_url_env: OPENAI_BASE_URL
+    base_url: https://api.openai.com/v1
+    models:
+    - name: text-embedding-3-large
+      key: openai.Text_Embedding_3_Large
+      display_name: Text Embedding 3 Large
+      parameters: 未公开
+      dimensions: 3072
+      max_input_length: 8191
+      description: OpenAI最新大型embedding模型
+    - name: text-embedding-3-small
+      key: openai.Text_Embedding_3_Small
+      display_name: Text Embedding 3 Small
+      parameters: 未公开
+      dimensions: 1536
+      max_input_length: 8191
+      description: OpenAI紧凑型embedding模型
+  siliconflow_embedding:
+    name: SiliconFlow Embedding
+    description: 硅基流动embedding服务
+    type: openai_embedding
+    api_key_env: SILICONFLOW_API_KEY
+    base_url_env: SILICONFLOW_BASE_URL
+    base_url: https://api.siliconflow.cn/v1
+    models:
+    - name: BAAI/bge-large-zh-v1.5
+      key: siliconflow.BGE_Large_ZH_V1_5
+      display_name: BGE Large 中文 v1.5
+      parameters: 326M
+      dimensions: 1024
+      max_input_length: 512
+      description: 中文优化的embedding模型
+defaults:
+  llm:
+    model_key: deepseek.DeepSeek_V3
+    temperature: 0.7
+    max_tokens: 4000
+    timeout: 60
+    context_length: 131072
+  embedding:
+    model_key: ollama.BGE_M3
+    dimensions: 1024
+    batch_size: 32
+    timeout: 30
+parameters:
+  temperature:
+    min: 0.0
+    max: 2.0
+    default: 0.7
+    description: 控制输出的随机性和创造性
+  max_tokens:
+    min: 1
+    max: 131072
+    default: 4000
+    description: 单次生成的最大token数
+  top_p:
+    min: 0.0
+    max: 1.0
+    default: 1.0
+    description: 核采样参数，控制词汇选择范围
+  frequency_penalty:
+    min: -2.0
+    max: 2.0
+    default: 0.0
+    description: 频率惩罚，减少重复内容
+  presence_penalty:
+    min: -2.0
+    max: 2.0
+    default: 0.0
+    description: 存在惩罚，鼓励主题多样性
+vendor_configs:
+  deepseek:
+    retry_attempts: 3
+    retry_delay: 1.0
+    rate_limit: 100
+    special_headers:
+      User-Agent: HomeSystem/1.0
+    pricing:
+      input_tokens: 0.14
+      output_tokens: 2.0
+      cache_hit: 0.014
+  siliconflow:
+    retry_attempts: 3
+    retry_delay: 0.5
+    rate_limit: 120
+    pricing_note: 9B以下模型永久免费
+  volcano:
+    retry_attempts: 3
+    retry_delay: 2.0
+    region: cn-beijing
+    rate_limit: 60
+    pricing:
+      input_tokens: 0.008
+      output_tokens: 0.08
+  moonshot:
+    retry_attempts: 2
+    retry_delay: 1.5
+    rate_limit: 50
+    min_charge: 50
+  zhipuai:
+    retry_attempts: 3
+    retry_delay: 1.0
+    rate_limit: 100
+    special_headers:
+      User-Agent: HomeSystem/1.0
+    pricing:
+      input_tokens: 0.8
+      output_tokens: 2.0
+      note: 比DeepSeek便宜85%
+    performance:
+      max_speed: 100
+      global_ranking: 3
+  ollama:
+    retry_attempts: 1
+    retry_delay: 0.1
+    local_model: true
+    gpu_required: true
+    min_vram: 24GB
+    note: 需要本地GPU支持，推荐RTX 4090或更高
+  alibaba:
+    retry_attempts: 3
+    retry_delay: 1.0
+    rate_limit: 60
+    special_headers:
+      User-Agent: HomeSystem/1.0
+    region: cn-hangzhou
+    pricing:
+      input_tokens: 0.8
+      output_tokens: 2.0
+      note: 思考模式推理token计费另议
+    performance:
+      reasoning_capability: exceptional
+      thinking_support: true
+      context_length: 256000
+recommendations:
+  general_use: deepseek-chat
+  reasoning: deepseek-reasoner
+  coding: qwen2.5-coder:32b
+  long_context: doubao-seed-1.6
+  local_deployment: llama3.3:70b
+  cost_effective: siliconflow
+  agent_tasks: glm-4.5
+  efficient_agent: glm-4.5-air
+  tool_calling: glm-4.5
+  multilingual: glm-4.5
+benchmarks:
+  deepseek_v3:
+    aime_2024: 90%+
+    humaneval: 85%+
+    math: 90%+
+  doubao_1_6:
+    aime_2025: 86.3分
+    gaokao_math: 144分
+  kimi_k2:
+    eq_bench3: 排名第一
+    creative_writing_v3: 排名第一
+  glm_4_5:
+    global_ranking: 第3名
+    performance_score: 63.2
+    agent_tasks: 智能体原生优化
+  glm_4_5_air:
+    performance_score: 59.8
+    efficiency: 高效版本
+    cost_effective: 比主流模型便宜85%
