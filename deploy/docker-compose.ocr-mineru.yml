@@ -1,6 +1,6 @@
 # HomeSystem OCR 服务独立部署
 # 使用 MinerU 云端 API 进行 OCR，无需本地 GPU
-# 适合在华为云等云环境部署
+# 配置从 .env 文件读取
 
 version: '3.8'
 
@@ -13,32 +13,21 @@ services:
     ports:
       - "5001:5001"
     environment:
-      # OCR 服务配置
       HOST: 0.0.0.0
       OCR_SERVICE_PORT: 5001
-      DEBUG: false
-      LOG_LEVEL: INFO
+      DEBUG: ${DEBUG:-false}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
       LOG_FILE: ocr_service.log
-      
-      # 请求限制配置
-      MAX_CONTENT_LENGTH: 100  # MB
-      REQUEST_TIMEOUT: 600     # 秒
-      
-      # OCR 处理设置
-      OCR_MAX_PAGES: 50
+      MAX_CONTENT_LENGTH: 100
+      REQUEST_TIMEOUT: 600
+      OCR_MAX_PAGES: ${OCR_MAX_PAGES:-50}
       OCR_TEMP_DIR: /tmp/ocr_service
       OCR_RESULTS_DIR: /tmp/ocr_results
-      
-      # ⚠️ MinerU API 配置 - 必须填写
-      MINERU_API_KEY: ${MINERU_API_KEY}  # 从 .env 文件读取
-      MINERU_BASE_URL: https://mineru.net
-      MINERU_TIMEOUT: 600       # API 超时时间(秒)
-      MINERU_POLL_INTERVAL: 5   # 轮询间隔(秒)
-      
-      # 可选：API Key 认证 (保护本服务)
+      MINERU_API_KEY: ${MINERU_API_KEY:?请在.env中设置MINERU_API_KEY}
+      MINERU_BASE_URL: ${MINERU_BASE_URL:-https://mineru.net}
+      MINERU_TIMEOUT: ${MINERU_TIMEOUT:-600}
+      MINERU_POLL_INTERVAL: ${MINERU_POLL_INTERVAL:-5}
       API_KEY: ${OCR_API_KEY:-}
-      
-      # 系统配置
       TZ: Asia/Shanghai
       PYTHONUNBUFFERED: 1
       PYTHONIOENCODING: utf-8
