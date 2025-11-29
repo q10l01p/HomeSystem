@@ -83,8 +83,8 @@ services:
   # PaperAnalysis Web 应用 - 本地构建
   paper-analysis:
     build:
-      context: ../Web/PaperAnalysis
-      dockerfile: Dockerfile
+      context: ..
+      dockerfile: Web/PaperAnalysis/Dockerfile
     container_name: homesystem-paper-analysis
     restart: unless-stopped
     ports:
@@ -127,8 +127,6 @@ services:
       PYTHONUNBUFFERED: 1
       PYTHONIOENCODING: utf-8
     volumes:
-      - ../Web/PaperAnalysis:/app:ro
-      - ../HomeSystem:/app/HomeSystem:ro
       - paper_logs:/app/logs
       - paper_uploads:/app/uploads
       - paper_data:/app/data
