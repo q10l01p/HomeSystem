@@ -1,0 +1,167 @@
+# HomeSystem 本地开发部署配置
+# 使用本地代码构建镜像，而非云端预构建镜像
+# 配置从 .env 文件读取
+
+version: '3.8'
+
+services:
+  # PostgreSQL 数据库服务
+  postgres:
+    image: postgres:15-alpine
+    container_name: homesystem-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-homesystem}
+      POSTGRES_USER: ${DB_USER:-homesystem}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?请在.env中设置DB_PASSWORD}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+      TZ: Asia/Shanghai
+    ports:
+      - "${DB_PORT:-15432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ../sql:/docker-entrypoint-initdb.d:ro
+    networks:
+      - homesystem-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U homesystem -d homesystem"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Redis 缓存服务
+  redis:
+    image: redis:7-alpine
+    container_name: homesystem-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-16379}:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - homesystem-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    command: redis-server --appendonly yes
+
+  # OCR 服务 - 本地构建
+  ocr-service:
+    build:
+      context: ../remote_app/ocr_service
+      dockerfile: Dockerfile
+    container_name: homesystem-ocr
+    restart: unless-stopped
+    ports:
+      - "5001:5001"
+    environment:
+      HOST: 0.0.0.0
+      OCR_SERVICE_PORT: 5001
+      DEBUG: ${DEBUG:-false}
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      MINERU_API_KEY: ${MINERU_API_KEY:?请在.env中设置MINERU_API_KEY}
+      MINERU_BASE_URL: ${MINERU_BASE_URL:-https://mineru.net}
+      MINERU_TIMEOUT: ${MINERU_TIMEOUT:-600}
+      MINERU_POLL_INTERVAL: ${MINERU_POLL_INTERVAL:-5}
+      OCR_MAX_PAGES: ${OCR_MAX_PAGES:-50}
+      TZ: Asia/Shanghai
+      PYTHONUNBUFFERED: 1
+    volumes:
+      - ../remote_app/ocr_service:/app:ro
+      - ../remote_app/shared:/app/shared:ro
+      - ocr_results:/tmp/ocr_results
+      - ocr_temp:/tmp/ocr_service
+    networks:
+      - homesystem-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5001/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  # PaperAnalysis Web 应用 - 本地构建
+  paper-analysis:
+    build:
+      context: ../Web/PaperAnalysis
+      dockerfile: Dockerfile
+    container_name: homesystem-paper-analysis
+    restart: unless-stopped
+    ports:
+      - "5002:5002"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      ocr-service:
+        condition: service_healthy
+    environment:
+      FLASK_HOST: 0.0.0.0
+      FLASK_PORT: 5002
+      FLASK_DEBUG: ${DEBUG:-false}
+      SECRET_KEY: ${SECRET_KEY:-paper-analysis-dev-key}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME:-homesystem}
+      DB_USER: ${DB_USER:-homesystem}
+      DB_PASSWORD: ${DB_PASSWORD}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_DB: ${REDIS_DB:-0}
+      REMOTE_OCR_ENDPOINT: http://ocr-service:5001
+      REMOTE_OCR_TIMEOUT: 300
+      SILICONFLOW_API_KEY: ${SILICONFLOW_API_KEY:?请在.env中设置SILICONFLOW_API_KEY}
+      SILICONFLOW_BASE_URL: ${SILICONFLOW_BASE_URL:-https://api.siliconflow.cn/v1}
+      DEFAULT_LLM_MODEL: ${DEFAULT_LLM_MODEL:-siliconflow}
+      LLM_TEMPERATURE: ${LLM_TEMPERATURE:-0.7}
+      LLM_MAX_TOKENS: ${LLM_MAX_TOKENS:-4000}
+      DIFY_BASE_URL: ${DIFY_BASE_URL:-}
+      DIFY_KB_API_KEY: ${DIFY_KB_API_KEY:-}
+      DIFY_ENABLED: ${DIFY_ENABLED:-false}
+      SIYUAN_API_URL: ${SIYUAN_API_URL:-}
+      SIYUAN_API_TOKEN: ${SIYUAN_API_TOKEN:-}
+      ARXIV_MAX_RESULTS: ${ARXIV_MAX_RESULTS:-2000}
+      ARXIV_REQUEST_TIMEOUT: ${ARXIV_REQUEST_TIMEOUT:-30}
+      TZ: Asia/Shanghai
+      PYTHONUNBUFFERED: 1
+      PYTHONIOENCODING: utf-8
+    volumes:
+      - ../Web/PaperAnalysis:/app:ro
+      - ../HomeSystem:/app/HomeSystem:ro
+      - paper_logs:/app/logs
+      - paper_uploads:/app/uploads
+      - paper_data:/app/data
+    networks:
+      - homesystem-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5002/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+# 数据卷定义
+volumes:
+  postgres_data:
+    name: homesystem-postgres-data
+  redis_data:
+    name: homesystem-redis-data
+  ocr_results:
+    name: homesystem-ocr-results
+  ocr_temp:
+    name: homesystem-ocr-temp
+  paper_logs:
+    name: homesystem-paper-logs
+  paper_uploads:
+    name: homesystem-paper-uploads
+  paper_data:
+    name: homesystem-paper-data
+
+# 网络定义
+networks:
+  homesystem-network:
+    driver: bridge
+    name: homesystem-network
